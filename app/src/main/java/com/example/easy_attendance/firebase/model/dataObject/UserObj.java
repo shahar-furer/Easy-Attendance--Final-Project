@@ -1,15 +1,23 @@
 package com.example.easy_attendance.firebase.model.dataObject;
 
-public class UserObj {
-    public int userNumber;
+public class UserObj
+{
+    public String orgKey;
+    public String keyID;
     public String email;
     public String fName;
     public String lName;
     public String password;
 
-    public UserObj (int userNumber, String email, String fName, String lName, String password)
+    public UserObj()
     {
-        this.userNumber = userNumber;
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
+    public UserObj (String orgKey, String keyID, String email, String fName, String lName, String password)
+    {
+        this.orgKey = orgKey;
+        this.keyID = keyID;
         this.email = email;
         this.fName = fName;
         this.lName = lName;

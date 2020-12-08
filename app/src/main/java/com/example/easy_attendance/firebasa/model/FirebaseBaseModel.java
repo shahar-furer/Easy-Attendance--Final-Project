@@ -6,12 +6,12 @@ import com.google.firebase.database.FirebaseDatabase;
 public class FirebaseBaseModel
 {
     FirebaseDatabase mDatabase;
-    DatabaseReference dbRootRef;
+    DatabaseReference myRef;
 
     public FirebaseBaseModel()
     {
         mDatabase = FirebaseDatabase.getInstance();
-        dbRootRef = mDatabase.getReference();
+        myRef = mDatabase.getReference();
 
     }
 }

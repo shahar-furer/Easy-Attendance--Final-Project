@@ -1,23 +1,25 @@
 package com.example.easy_attendance.firebasa.model;
 
 import com.example.easy_attendance.firebase.model.dataObject.UserObj;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 
 public class FirebaseDBUser extends FirebaseBaseModel
 {
-    public void addUserToDB(int userNumber, String fName, String lName, String email, String password)
+    public void addUserToDB(String orgKey, String keyID, String fName, String lName, String email, String password)
     {
-        writeNewUser(userNumber, fName, lName, email, password);
+        writeNewUser(orgKey, keyID, fName, lName, email, password);
     }
 
-    private void writeNewUser(int userNumber, String fName, String lName, String email, String password)
+    private void writeNewUser(String orgKey, String keyID, String fName, String lName, String email, String password)
     {
-        UserObj useRej = new UserObj(userNumber, fName, lName, email, password);
-        //myRef.child("users").child(userNumber).setValue(useRej);
+        UserObj useRej = new UserObj(orgKey ,keyID, fName, lName, email, password);
+        myRef.child("users").child(keyID).setValue(useRej);
     }
 
-    /*public DatabaseReference getUserFromDB (String userNumber)
+    public DatabaseReference getUserFromDB (String keyID)
     {
-        return myRef.getRef().child("users").child(userNumber);
+        return myRef.getRef().child("users").child(keyID);
     }
-    */
+
 }

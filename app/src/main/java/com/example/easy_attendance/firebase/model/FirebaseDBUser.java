@@ -1,5 +1,6 @@
-package com.example.easy_attendance.firebasa.model;
+package com.example.easy_attendance.firebase.model;
 
+import com.example.easy_attendance.firebase.model.FirebaseBaseModel;
 import com.example.easy_attendance.firebase.model.dataObject.UserObj;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;

@@ -33,13 +33,13 @@
         android:id="@+id/editTextTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextTextPersonName"
-        android:layout_alignStart="@+id/editTextTextPersonName"
         android:layout_below="@+id/editTextTextPersonName"
+        android:layout_alignLeft="@+id/editTextTextPersonName"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:rotationX="2" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"

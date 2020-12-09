@@ -1,4 +1,4 @@
-package com.example.easy_attendance.firebasa.model;
+package com.example.easy_attendance.firebase.model;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

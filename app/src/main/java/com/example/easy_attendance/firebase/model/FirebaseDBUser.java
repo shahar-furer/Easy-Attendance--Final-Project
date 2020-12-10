@@ -7,14 +7,14 @@ import com.google.firebase.database.DatabaseReference;
 
 public class FirebaseDBUser extends FirebaseBaseModel
 {
-    public void addUserToDB(String orgKey, String keyID, String fName, String lName, String email, String password)
+    public void addUserToDB(String orgKey, String keyID, String fName, String lName, String email, String password, boolean isManager)
     {
-        writeNewUser(orgKey, keyID, fName, lName, email, password);
+        writeNewUser(orgKey, keyID, fName, lName, email, password, isManager);
     }
 
-    private void writeNewUser(String orgKey, String keyID, String fName, String lName, String email, String password)
+    private void writeNewUser(String orgKey, String keyID, String fName, String lName, String email, String password, boolean isManager)
     {
-        UserObj useRej = new UserObj(orgKey ,keyID, fName, lName, email, password);
+        UserObj useRej = new UserObj(orgKey ,keyID, email, fName, lName, password, isManager);
         myRef.child("users").child(keyID).setValue(useRej);
     }
 

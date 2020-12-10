@@ -10,11 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 public class TableObj {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date ;
         String isEntryExit;
 
-        public TableObj(Date d, String s) {
+        public TableObj(Date d, String s)
+        {
             this.date=d;
             this.isEntryExit=s;
 
@@ -26,9 +27,9 @@ public class TableObj {
 
     void setIsEntryExit(String s) { isEntryExit = s;}
 
-    Date getDate() { return this.date; }
+    public Date getDate() { return this.date; }
 
-    String getIsEntryExit(){ return this.isEntryExit ; }
+    public String getIsEntryExit(){ return this.isEntryExit ; }
 
 
 

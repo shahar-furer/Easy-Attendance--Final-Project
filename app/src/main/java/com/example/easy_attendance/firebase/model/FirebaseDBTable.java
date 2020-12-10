@@ -18,12 +18,12 @@ public class FirebaseDBTable extends FirebaseBaseModel {
     private void writeNewAttendance(UserObj user, Date d, String s)
     {
         TableObj table = new TableObj(d, s);
-        String month = table.getDate().toString(); //casting month to string- not finished
-        myRef.child("Months").child(user.keyID).child(month).child(table.getIsEntryExit()).setValue(table.getDate().getTime());
+        String month = table.getMonth(); //casting month to string- not finished
+        myRef.child("Months").child(user.keyID).child(month).child(table.getIsEntryExit()).setValue(table.getDate().getTime()); //if we build the DB as hashMap, then will change the Entry/Exit
     }
 
-   public DatabaseReference getAttendanceFromDB (String keyID)
-    {
-        return myRef.getRef().child("users").child(keyID);
+   public DatabaseReference getAttendanceFromDB (UserObj user, String month) //not finished. need loop for printing all the dates
+   {
+       return myRef.getRef().child("Months").child(user.keyID).child(month).getRoot();
     }
 }

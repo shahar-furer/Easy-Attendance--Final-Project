@@ -9,30 +9,44 @@ public class TableObj {
         SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
         SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
-        Date date ;
-        String isEntryExit;
+        Date entryDate;
+        Date exitDate;
+        String isEntryExit; // entry or exit
 
-        public TableObj(Date d, String s) {
-            this.date=d;
-            this.isEntryExit=s;
+
+// we need to add option for only Exit, only Entry, and both together
+        public TableObj(Date d, String s) //now we have option only for entry and at the end of the day-Exit
+        {
+            this.isEntryExit = s;
+            if (isEntryExit == "entry")
+                this.entryDate = d;
+            else
+                this.exitDate = d;
 
         }
 
 
+
         // param entry is current time on pressing start button
-    void setDate(Date entry) { date = entry; }
 
-    void setIsEntryExit(String s) { isEntryExit = s;}
 
-    Date getDate() { return this.date; }
+    public void setEntryDate(Date entryD) { this.entryDate = entryD; }
 
-    String getMonth() { return monthFormat.format(date);}
+    public void setExitDate(Date exitD) { exitDate = exitD; }
 
-    String getYear() { return yearFormat.format(date); }
+    public void setIsEntryExit(String s) { isEntryExit = s;}
 
-    String getHour() { return hourFormat.format(date);}
+    public Date getDate() { return this.entryDate; }
 
-    String getIsEntryExit(){ return this.isEntryExit ; }
+    public String getMonth() { return monthFormat.format(entryDate);}
+
+    public String getYear() { return yearFormat.format(entryDate); }
+
+    public String getHour() { return hourFormat.format(entryDate);}
+
+    public String getIsEntryExit(){ return this.isEntryExit; }
+
+
 
 
 

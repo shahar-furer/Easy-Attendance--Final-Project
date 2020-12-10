@@ -1,16 +1,14 @@
 package com.example.easy_attendance.firebase.model.dataObject;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 
 
 public class TableObj {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
         Date date ;
         String isEntryExit;
 
@@ -27,6 +25,12 @@ public class TableObj {
     void setIsEntryExit(String s) { isEntryExit = s;}
 
     Date getDate() { return this.date; }
+
+    String getMonth() { return monthFormat.format(date);}
+
+    String getYear() { return yearFormat.format(date); }
+
+    String getHour() { return hourFormat.format(date);}
 
     String getIsEntryExit(){ return this.isEntryExit ; }
 

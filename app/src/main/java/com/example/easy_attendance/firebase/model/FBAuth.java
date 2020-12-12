@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 public class FBAuth {
     FirebaseAuth auth;
@@ -22,10 +23,9 @@ public class FBAuth {
         this.auth = FirebaseAuth.getInstance();
     }
 
-    public void registerUserToDB(String orgKey, String keyID, String email, String fName, String lName, String password,  AppCompatActivity activity){
+    public void registerUserToDB(String orgKey, String keyID, String email, String fName, String lName, String password, Boolean isManager,  AppCompatActivity activity){
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(activity, new OnSuccessListener<AuthResult>(){
-
 
                     @Override
                     public void onSuccess(@NonNull AuthResult authResult) {
@@ -35,7 +35,7 @@ public class FBAuth {
                         FirebaseDBUser user = new FirebaseDBUser();
                         FirebaseDBTable table = new FirebaseDBTable();
                         String userID = auth.getCurrentUser().getUid();
-                        user.addUserToDB(orgKey, userID, email, fName, lName, password);
+                        user.addUserToDB(orgKey, userID, email, fName, lName, password ,isManager);
                         Intent loginIntent=new Intent(activity, MainActivity.class);
                         activity.startActivity(loginIntent);
                     }
@@ -57,7 +57,7 @@ public class FBAuth {
                             activity.startActivity(loginIntent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("LoginActivity", "signInWithEmail:failure", task.getException());
+                            Log.w("LoginActivity", "signInWithemail:failure", task.getException());
                             Toast.makeText(activity.getApplicationContext(), "Email or password incorrect.", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -65,30 +65,5 @@ public class FBAuth {
     }
 
 
-//    public void resetPassword(String email, AppCompatActivity activity) {
-//        final ProgressDialog progressDialog = new ProgressDialog(activity);
-//        progressDialog.setMessage("verifying..");
-//        progressDialog.show();
-//        mAuth.sendPasswordResetEmail(email)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            progressDialog.dismiss();
-//                            Toast.makeText(activity.getApplicationContext(), "Reset password instructions has sent to your email",
-//                                    Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            progressDialog.dismiss();
-//                            Toast.makeText(activity.getApplicationContext(),
-//                                    "Email don't exist", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                progressDialog.dismiss();
-//                Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+
 }

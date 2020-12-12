@@ -15,12 +15,13 @@ public class FirebaseDBUser extends FirebaseBaseModel
     private void writeNewUser(String orgKey, String keyID, String fName, String lName, String email, String password, boolean isManager)
     {
         UserObj useRej = new UserObj(orgKey ,keyID, email, fName, lName, password, isManager);
-        myRef.child("users").child(keyID).setValue(useRej);
+        myRef.child("Users").setValue(keyID);
+        myRef.child("Users").child(keyID).setValue(useRej);
     }
 
     public DatabaseReference getUserFromDB (String keyID)
     {
-        return myRef.getRef().child("users").child(keyID);
+        return myRef.getRef().child("Users").child(keyID);
     }
 
 }

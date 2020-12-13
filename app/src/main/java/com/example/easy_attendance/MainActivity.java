@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("login btn was pressed" , "lets see if it work");
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
+
             if (TextUtils.isEmpty(email)) {
                 emailEditText.setError("Email is required");
 

@@ -18,7 +18,7 @@
         android:textSize="24sp" />
 
     <EditText
-        android:id="@+id/editTextFirstName"
+        android:id="@+id/editTextTextFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
@@ -31,60 +31,60 @@
 
 
     <EditText
-        android:id="@+id/editTextLastName"
+        android:id="@+id/editTextTextLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextFirstName"
-        android:layout_alignStart="@+id/editTextFirstName"
-        android:layout_below="@+id/editTextFirstName"
+        android:layout_alignLeft="@+id/editTextTextFirstName"
+        android:layout_alignStart="@+id/editTextTextFirstName"
+        android:layout_below="@+id/editTextTextFirstName"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Last Name" />
 
 
     <EditText
-        android:id="@+id/editTextEmail"
+        android:id="@+id/editTextTextEmailReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextLastName"
-        android:layout_alignStart="@+id/editTextLastName"
-        android:layout_below="@+id/editTextLastName"
+        android:layout_alignLeft="@+id/editTextTextLastName"
+        android:layout_alignStart="@+id/editTextTextLastName"
+        android:layout_below="@+id/editTextTextLastName"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"/>
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/editTextTextPasswordReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextEmail"
-        android:layout_alignStart="@+id/editTextEmail"
-        android:layout_below="@+id/editTextEmail"
+        android:layout_alignLeft="@+id/editTextTextEmailReg"
+        android:layout_alignStart="@+id/editTextTextEmailReg"
+        android:layout_below="@+id/editTextTextEmailReg"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"/>
 
     <EditText
-        android:id="@+id/editTextId"
+        android:id="@+id/editTextTextId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextPassword"
-        android:layout_alignStart="@+id/editTextPassword"
-        android:layout_below="@+id/editTextPassword"
+        android:layout_alignLeft="@+id/editTextTextPasswordReg"
+        android:layout_alignStart="@+id/editTextTextPasswordReg"
+        android:layout_below="@+id/editTextTextPasswordReg"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="ID"
         android:inputType="text"/>
 
     <EditText
-        android:id="@+id/editTextOrgKey"
+        android:id="@+id/editTextTextOrgKey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextId"
-        android:layout_alignStart="@+id/editTextId"
-        android:layout_below="@+id/editTextId"
+        android:layout_alignLeft="@+id/editTextTextId"
+        android:layout_alignStart="@+id/editTextTextId"
+        android:layout_below="@+id/editTextTextId"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Organization Key" />
@@ -93,16 +93,16 @@
         android:id="@+id/isManager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextOrgKey"
-        android:layout_alignStart="@+id/editTextOrgKey"
-        android:layout_below="@+id/editTextOrgKey"
+        android:layout_alignLeft="@+id/editTextTextOrgKey"
+        android:layout_alignStart="@+id/editTextTextOrgKey"
+        android:layout_below="@+id/editTextTextOrgKey"
         android:text="Manager" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/editTextOrgKey"
+        android:layout_below="@+id/editTextTextOrgKey"
         android:layout_marginTop="7dp">
 
         <Button

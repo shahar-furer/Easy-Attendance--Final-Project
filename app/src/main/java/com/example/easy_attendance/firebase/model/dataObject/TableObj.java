@@ -8,6 +8,7 @@ public class TableObj {
 
         SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
         SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
         SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
         Date entryDate;
         Date exitDate;
@@ -36,13 +37,25 @@ public class TableObj {
 
     public void setIsEntryExit(String s) { isEntryExit = s;}
 
-    public Date getDate() { return this.entryDate; }
+    public Date getEnDate() { return this.entryDate; }
 
-    public String getMonth() { return monthFormat.format(entryDate);}
+    public String getEnMonth() { return monthFormat.format(entryDate);}
 
-    public String getYear() { return yearFormat.format(entryDate); }
+    public String getEnDay() { return dayFormat.format(entryDate);}
 
-    public String getHour() { return hourFormat.format(entryDate);}
+    public String getEnYear() { return yearFormat.format(entryDate); }
+
+    public String getEnHour() { return hourFormat.format(entryDate);}
+
+    public Date geExtDate() { return this.exitDate; }
+
+    public String getExMonth() { return monthFormat.format(exitDate);}
+
+    public String getExDay() { return dayFormat.format(exitDate);}
+
+    public String getExYear() { return yearFormat.format(exitDate); }
+
+    public String getExHour() { return hourFormat.format(exitDate);}
 
     public String getIsEntryExit(){ return this.isEntryExit; }
 

@@ -21,6 +21,7 @@ import java.util.concurrent.Executor;
 
 public class FBAuth {
     FirebaseAuth mAuth;
+    public String userID;
 
 
     public FBAuth() {
@@ -69,8 +70,10 @@ public class FBAuth {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("LoginActivity", "signInWithEmail:success");
+                            userID = mAuth.getCurrentUser().getUid();
                             activity.finish();
                             Intent loginIntent = new Intent(activity, HomePage.class);
+                            loginIntent.putExtra("userId" , userID);
                             activity.startActivity(loginIntent);
                         } else {
                             // If sign in fails, display a message to the user.

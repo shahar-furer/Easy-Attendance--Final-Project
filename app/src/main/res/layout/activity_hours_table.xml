@@ -7,59 +7,23 @@
     tools:context=".HoursTable"
     android:background="#fff3e2">
 
-<androidx.cardview.widget.CardView
-    android:id="@+id/cardLogOut"
-    android:layout_width="120dp"
-    android:layout_height="30dp"
-    android:layout_marginStart="270dp"
-    android:layout_marginTop="20dp"
-    app:cardBackgroundColor="#9088d4"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="10dp"
-
-    android:padding="12dp">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="logout"
-            android:textColor="#fff"
-            android:textSize="18sp" />
-
-    </RelativeLayout>
-
-</androidx.cardview.widget.CardView>
-
     <TableLayout
         android:layout_width="370dp"
         android:layout_height="500dp"
-        android:layout_below="@id/cardLogOut"
-        android:layout_marginTop="75dp"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="153dp"
         android:layout_marginRight="30dp">
 
-        <TableRow
-            android:layout_width="370dp"
-            android:layout_height="30dp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </TableLayout>
+
+    <Button
+        android:id="@+id/logoutBtnHT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="logout"
+        android:textColor="#fff"
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

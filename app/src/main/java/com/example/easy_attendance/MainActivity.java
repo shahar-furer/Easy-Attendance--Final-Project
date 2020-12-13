@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText emailEditText, passwordEditText;
     private Button register, login;
     FBAuth auth = new FBAuth();
+    String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

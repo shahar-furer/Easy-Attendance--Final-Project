@@ -11,6 +11,8 @@ import android.widget.Switch;
 import android.view.View;
 import android.widget.Toast;
 
+
+
 import com.example.easy_attendance.firebase.model.FBAuth;
 
 public class RegistrationPage extends AppCompatActivity {

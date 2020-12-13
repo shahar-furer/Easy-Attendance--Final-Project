@@ -22,7 +22,8 @@ public class HomePage extends AppCompatActivity  implements View.OnClickListener
     private Button start , end , logout;
     Boolean entryPressed;
     FirebaseDBTable newAttendance = new FirebaseDBTable();
-    FirebaseAuth mAuth= FirebaseAuth.getInstance();
+    FBAuth auth = new FBAuth();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class HomePage extends AppCompatActivity  implements View.OnClickListener
         if( v== logout) {
             Toast.makeText(getApplicationContext(), "logout button was pressed", Toast.LENGTH_LONG).show();
 
-            mAuth.signOut();
+            auth.signOut();
 
         }
 

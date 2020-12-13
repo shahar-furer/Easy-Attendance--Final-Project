@@ -35,6 +35,7 @@ public class RegistrationPage extends AppCompatActivity {
         id = (EditText) findViewById(R.id.editTextTextId);
         orgKey = (EditText) findViewById(R.id.editTextTextOrgKey);
         isManager = (Switch) findViewById(R.id.isManager);
+
         register.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -79,6 +80,5 @@ public class RegistrationPage extends AppCompatActivity {
             }
         });
     }
-
 
 }

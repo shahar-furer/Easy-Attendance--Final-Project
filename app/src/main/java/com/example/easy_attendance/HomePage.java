@@ -16,6 +16,7 @@ import com.example.easy_attendance.R;
 import com.example.easy_attendance.firebase.model.FBAuth;
 import com.example.easy_attendance.firebase.model.FirebaseDBTable;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class HomePage extends AppCompatActivity  implements View.OnClickListener  {
 
@@ -23,6 +24,7 @@ public class HomePage extends AppCompatActivity  implements View.OnClickListener
     Boolean entryPressed;
     FirebaseDBTable newAttendance = new FirebaseDBTable();
     FBAuth auth = new FBAuth();
+
 
 
     @Override

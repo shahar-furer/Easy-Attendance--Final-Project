@@ -5,6 +5,7 @@ import com.example.easy_attendance.firebase.model.dataObject.TableObj;
 import com.example.easy_attendance.firebase.model.dataObject.UserObj;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.Date;
@@ -14,8 +15,9 @@ import java.util.HashMap;
 public class FirebaseDBTable extends FirebaseBaseModel {
     TableObj table;
     HashMap <String ,Object> entryAndExit;
-    FirebaseAuth mAuth;
+    FBAuth mAuth = new FBAuth();
     String keyID = "33512";
+    String uid = mAuth.getUserID();
             //mAuth.getCurrentUser().getUid();
 
     public FirebaseDBTable() {
@@ -33,7 +35,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
     {
         String month = table.getEnMonth();
         String year = table.getEnYear(); //casting month to string- not finished
-        myRef.child("Attendance").child(keyID).child(year).child(month).child(table.getEnDay()).setValue(entryAndExit); //if we build the DB as hashMap, then will change the Entry/Exit
+        myRef.child("Attendance").child(uid).child(year).child(month).child(table.getEnDay()).setValue(entryAndExit); //if we build the DB as hashMap, then will change the Entry/Exit
     }
 
     public void addExitToAttendance(Date d)
@@ -45,6 +47,6 @@ public class FirebaseDBTable extends FirebaseBaseModel {
 
    public DatabaseReference getAttendanceFromDB (String month) //not finished. need loop for printing all the dates
    {
-       return myRef.getRef().child("Attendance").child(keyID).child(month).getRef();
+       return myRef.getRef().child("Attendance").child(uid).child(month).getRef();
     }
 }

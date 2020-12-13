@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.concurrent.Executor;
@@ -23,14 +24,11 @@ public class FBAuth {
     FirebaseAuth mAuth;
     public String userID;
 
-
     public FBAuth() {
         this.mAuth = FirebaseAuth.getInstance();
     }
 
     public void registerUserToDB(String orgKey, String keyID, String email, String fName, String lName, String password, Boolean isManager,  AppCompatActivity activity){
-
-
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -41,6 +39,7 @@ public class FBAuth {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     //TASK ERROR
+                    task.getException().printStackTrace();
                     Toast.makeText(activity, "Failed create new account .",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -87,6 +86,13 @@ public class FBAuth {
 
     public void signOut(){
         mAuth.signOut();
+    }
+
+    public String getUserID() {
+        String uid = mAuth.getCurrentUser().getUid();
+
+        return uid;
+
     }
 
 

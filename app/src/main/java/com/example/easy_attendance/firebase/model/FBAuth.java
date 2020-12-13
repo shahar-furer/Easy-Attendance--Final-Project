@@ -8,15 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easy_attendance.HomePage;
-import com.example.easy_attendance.MainActivity;
-import com.example.easy_attendance.RegistrationPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
+
 
 import java.util.concurrent.Executor;
 
@@ -29,7 +26,6 @@ public class FBAuth {
     }
 
     public void registerUserToDB(String orgKey, String keyID, String email, String fName, String lName, String password, Boolean isManager,  AppCompatActivity activity){
-
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -95,6 +91,11 @@ public class FBAuth {
 
     }
 
+    public String getUserName() {
+        String Name = mAuth.getCurrentUser().getDisplayName();
 
+        return Name;
+
+    }
 
 }

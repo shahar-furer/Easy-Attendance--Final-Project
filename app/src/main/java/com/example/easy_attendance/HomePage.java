@@ -3,20 +3,17 @@ package com.example.easy_attendance;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Date;
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+
 
 import android.widget.Toast;
 
-import com.example.easy_attendance.R;
+
 import com.example.easy_attendance.firebase.model.FBAuth;
 import com.example.easy_attendance.firebase.model.FirebaseDBTable;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
 
 public class HomePage extends AppCompatActivity  implements View.OnClickListener  {
 
@@ -52,6 +49,7 @@ public class HomePage extends AppCompatActivity  implements View.OnClickListener
             }
             else {
                 newAttendance.addEntryToDB(new Date() , "entry");
+                newAttendance.addExitToAttendance(new Date());
                 Toast.makeText(getApplicationContext(), "Entry was not registered , need to change manually", Toast.LENGTH_LONG).show();
             }
         }

@@ -18,7 +18,7 @@ import com.example.easy_attendance.firebase.model.FirebaseDBTable;
 public class HomePage extends AppCompatActivity  implements View.OnClickListener  {
 
     private Button start , end , logout;
-    Boolean entryPressed;
+    Boolean entryPressed =false;
     FirebaseDBTable newAttendance = new FirebaseDBTable();
     FBAuth auth = new FBAuth();
 

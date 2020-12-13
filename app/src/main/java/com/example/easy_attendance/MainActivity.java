@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button register, login;
     FBAuth auth = new FBAuth();
     String userID;
+    //test
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

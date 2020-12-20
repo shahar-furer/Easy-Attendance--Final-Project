@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 
 
+
 import com.example.easy_attendance.firebase.model.FBAuth;
 
 public class RegistrationPage extends AppCompatActivity {
@@ -20,13 +21,13 @@ public class RegistrationPage extends AppCompatActivity {
     private EditText fname ,lname ,emailReg ,passwordReg, id ,orgKey;
     private Button register;
     private Switch isManager;
-    FBAuth auth= new FBAuth();
+    FBAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_page);
-
+        auth= new FBAuth();
         register = findViewById(R.id.registerBtn);
         fname = findViewById(R.id.editTextTextFirstName);
         lname = (EditText) findViewById(R.id.editTextTextLastName);
@@ -75,8 +76,6 @@ public class RegistrationPage extends AppCompatActivity {
                     return;
                 }
                 auth.registerUserToDB(orKeyt, idt, fNt, lNt, et, pt, isMan, RegistrationPage.this);
-                Intent intent = new Intent(RegistrationPage.this, MainActivity.class);
-                startActivity(intent);
             }
         });
     }

@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easy_attendance.HomePage;
+import com.example.easy_attendance.MainActivity;
+import com.example.easy_attendance.RegistrationPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -17,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.concurrent.Executor;
 
+import static android.content.ContentValues.TAG;
+
 public class FBAuth {
     FirebaseAuth mAuth;
     public String userID;
@@ -25,7 +29,7 @@ public class FBAuth {
         this.mAuth = FirebaseAuth.getInstance();
     }
 
-    public void registerUserToDB(String orgKey, String keyID, String email, String fName, String lName, String password, Boolean isManager,  AppCompatActivity activity){
+    public void registerUserToDB(String orgKey, String keyID , String fName, String lName, String email, String password, Boolean isManager,  AppCompatActivity activity){
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -33,10 +37,15 @@ public class FBAuth {
                     //TASK SUCCESSFUL
                     Toast.makeText(activity, "Success create new account .",
                             Toast.LENGTH_SHORT).show();
+                    String userID = getUserID();
+                    FirebaseDBUser user = new FirebaseDBUser();
+                    user.addUserToDB(userID,orgKey, userID, email, fName, lName, password ,isManager);
+                    Intent intent = new Intent(activity, MainActivity.class);
+                    activity.startActivity(intent);
                 } else {
                     //TASK ERROR
-                    task.getException().printStackTrace();
-                    Toast.makeText(activity, "Failed create new account .",
+                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                    Toast.makeText(activity, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
                 }
             }

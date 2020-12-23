@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomePage"
+    tools:context=".DailyReport"
     android:background="#fff3e2">
 
     <TextView
@@ -73,23 +73,37 @@
                 android:textSize="24sp" />
 
 
-
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
 
-    <Button
-        android:id="@+id/logoutBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cardEnd"
-        android:layout_alignLeft="@id/cardEnd"
-        android:layout_alignRight="@id/cardEnd"
-        android:layout_marginTop="61dp"
-        android:text="logout"
-        android:textColor="#fff"
-        android:textSize="24sp" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:id="@+id/cardLogout"
+        android:layout_height="50dp"
+        android:layout_below="@+id/cardEnd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        app:cardBackgroundColor="#48D1CC"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="10dp"
+        android:padding="12dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/logoutBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="logout"
+                android:textColor="#fff"
+                android:textSize="24sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

@@ -13,9 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyAttendance">
         <activity android:name=".RegistrationPage"></activity>
-        <activity android:name=".HoursTable" />
-        <activity android:name=".HomePage" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MonthlyReport" />
+        <activity android:name=".DailyReport" />
+        <activity android:name=".LoginPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

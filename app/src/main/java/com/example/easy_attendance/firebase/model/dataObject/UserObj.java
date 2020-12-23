@@ -4,7 +4,6 @@ public class UserObj
 {
     public String orgKey;
     public String keyID;
-    public String userID;
     public String email;
     public String fName;
     public String lName;
@@ -16,11 +15,10 @@ public class UserObj
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public UserObj (String userID, String orgKey, String keyID, String email, String fName, String lName, String password, boolean isManager)
+    public UserObj ( String orgKey, String keyID, String email, String fName, String lName, String password, boolean isManager)
     {
         this.orgKey = orgKey;
         this.keyID = keyID;
-        this.userID=userID;
         this.email = email;
         this.fName = fName;
         this.lName = lName;
@@ -51,6 +49,11 @@ public class UserObj
     public void setIsManager (boolean isManager) {this.isManager = isManager;}
 
     public Boolean getIsManager () {return isManager;}
+
+    public String getFirstName () {return fName;}
+
+    public String getUserId () {return keyID;}
+
 
 
 }

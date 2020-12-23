@@ -65,6 +65,10 @@ public class RegistrationPage extends AppCompatActivity {
                     passwordReg.setError("Password is required");
                 }
 
+                if (orKeyt.isEmpty()) {
+                    orgKey.setError("organization id is required");
+                }
+
 
 
                 if (et == null || !Patterns.EMAIL_ADDRESS.matcher(et).matches()) {

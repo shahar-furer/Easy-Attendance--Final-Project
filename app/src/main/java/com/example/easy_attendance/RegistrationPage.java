@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -93,25 +94,6 @@ public class RegistrationPage extends AppCompatActivity {
                 String pt = passwordReg.getText().toString().trim();
                 Boolean isMan = isManager.isChecked();
 
-                DatabaseReference userRef = user.getAllUsers();
-                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                            if (snapshot.child("ID").getValue().equals(idt)) {
-                                id.setError("id is already in use");
-                                return;
-                            }
-
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-
-
-                });
-
 
 
                 if (fNt.isEmpty()) {
@@ -137,8 +119,6 @@ public class RegistrationPage extends AppCompatActivity {
                 }
 
 
-
-
                 if (et == null || !Patterns.EMAIL_ADDRESS.matcher(et).matches()) {
                     Toast.makeText(getApplicationContext(), "Invalid email", Toast.LENGTH_LONG).show();
                     return;
@@ -148,7 +128,32 @@ public class RegistrationPage extends AppCompatActivity {
                     return;
                 }
 
-                auth.registerUserToDB(orKeyt, idt, fNt, lNt, et, pt, isMan, RegistrationPage.this);
+
+                DatabaseReference userRef = user.getAllUsers();
+                final boolean[] isOK = {true};
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            if (snapshot.child("ID").getValue().equals(idt)) {
+                                isOK[0] = false;
+                                id.setError("id is already in use");
+                                return;
+                            }
+                        }
+                        if(isOK[0])
+                            auth.registerUserToDB(orKeyt, idt, fNt, lNt, et, pt, isMan, RegistrationPage.this);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+
+
+
+                });
+
             }
         });
     }

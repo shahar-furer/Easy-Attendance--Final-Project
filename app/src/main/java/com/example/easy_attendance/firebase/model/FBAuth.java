@@ -31,54 +31,30 @@ public class FBAuth {
         user  = new FirebaseDBUser();
     }
 
-    public void registerUserToDB(String orgKey, String keyID , String fName, String lName, String email, String password, Boolean isManager,  AppCompatActivity activity){
-      if(isManager ==true) {
-          DatabaseReference userRef = user.getOrganization(orgKey);
-          userRef.orderByChild("isManager")
-                  .equalTo(true)
-                  .addListenerForSingleValueEvent(new ValueEventListener() {
-                      @Override
-                      public void onDataChange(DataSnapshot dataSnapshot) {
-                          if (dataSnapshot.exists()) {
-                              Toast.makeText(activity, "Current Organization already has manager ,Registration denied.",
-                                      Toast.LENGTH_SHORT).show();
-                              return;
-                          } else {
-                              //does not exist
-                          }
-                      }
+    public void registerUserToDB(String orgKey, String ID , String fName, String lName, String email, String password, Boolean isManager,  AppCompatActivity activity){
 
-                      @Override
-                      public void onCancelled(@NonNull DatabaseError error) {
-
-                      }
-
-                  });
-      }
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    //TASK SUCCESSFUL
-                    Toast.makeText(activity, "Success create new account .",
-                            Toast.LENGTH_SHORT).show();
-                    String userID = getUserID();
-
-                    user.addUserToDB(userID,orgKey, keyID, email, fName, lName, password ,isManager);
-                    Intent intent = new Intent(activity, LoginPage.class);
-                    activity.startActivity(intent);
-                } else {
-                    //TASK ERROR
-                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(activity, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        //TASK SUCCESSFUL
+                        Toast.makeText(activity.getApplicationContext(), "Success create new account .",
+                                Toast.LENGTH_SHORT).show();
+                        String userID = getUserID();
+                        user.addUserToDB(userID, orgKey, ID, fName, lName, email , password, isManager);
+                        Intent intent = new Intent(activity, LoginPage.class);
+                        activity.startActivity(intent);
+                    } else {
+                        //TASK ERROR
+                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(activity.getApplicationContext(), "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
 
+        }
 
-
-    }
 
 
     public void validationUser(String email, String password, AppCompatActivity activity) {
@@ -90,7 +66,6 @@ public class FBAuth {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("LoginActivity", "signInWithEmail:success");
                             userID = mAuth.getCurrentUser().getUid();
-                            activity.finish();
                             Intent loginIntent = new Intent(activity, DailyReport.class);
                             loginIntent.putExtra("userId" , userID);
                             activity.startActivity(loginIntent);

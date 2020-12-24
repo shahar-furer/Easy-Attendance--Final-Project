@@ -32,7 +32,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                keyId =dataSnapshot.child("keyID").getValue(String.class);
+                keyId =dataSnapshot.child("ID").getValue(String.class);
             }
 
             @Override
@@ -80,11 +80,11 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         String month = monthFormat.format(d);
         String day = dayFormat.format(d);
         String hour= hourFormat.format(d);
-        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("Attendance").child(keyId).child(year).child(month).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if ((snapshot.hasChild("entry"))) {
-                    if (!(snapshot.hasChild("exit"))) {
+                if (snapshot.hasChild(day)) {
+                    if ((snapshot.child(day).hasChild("entry"))&&(!(snapshot.child(day).hasChild("exit")))) {
                         myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("exit").setValue(hour); //if we build the DB as hashMap, then will change the Entry/Exit
                     }
                 }

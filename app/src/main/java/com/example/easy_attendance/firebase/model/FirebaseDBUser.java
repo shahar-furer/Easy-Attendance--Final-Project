@@ -11,25 +11,26 @@ import static android.content.ContentValues.TAG;
 
 public class FirebaseDBUser extends FirebaseBaseModel
 {
-    static int counter=2;
 
-    public void addUserToDB(String userID,String orgKey, String keyID, String fName, String lName, String email, String password, boolean isManager)
+    public void addUserToDB(String userID,String orgKey, String ID, String fName, String lName, String email, String password, boolean isManager)
     {
-        writeNewUser(userID , orgKey, keyID, fName, lName, email, password, isManager);
+        writeNewUser(userID , orgKey, ID, fName, lName, email, password, isManager);
     }
 
-    private void writeNewUser(String userID ,String orgKey, String keyID, String fName, String lName, String email, String password, boolean isManager)
+    private void writeNewUser(String userID ,String orgKey, String ID, String fName, String lName, String email, String password, boolean isManager)
     {
-        UserObj userRej = new UserObj(orgKey ,keyID,  fName, lName,email, password, isManager);
+        UserObj userRej = new UserObj(orgKey ,ID,  fName, lName ,email, password, isManager);
         myRef.child("Users").child(userID).setValue(userRej);
-        writeUserToOrg(orgKey , keyID ,isManager);
+        writeUserToOrg(orgKey , ID ,fName ,lName,isManager);
     }
 
-    private void writeUserToOrg(String orgKey , String keyID , boolean isManager)
+    private void writeUserToOrg(String orgKey , String ID,String fName,String lName , boolean isManager)
     {
-        HashMap hm = new HashMap();
-        hm.put("isManager" ,isManager);
-        myRef.child("organization").child(orgKey).child(keyID).setValue(hm);
+
+        if(isManager==true) {
+            myRef.child("organization").child(orgKey).child("Manager").setValue(ID);
+        }
+        myRef.child("organization").child(orgKey).child(ID).setValue(fName+"-"+lName);
 
 
     }
@@ -43,6 +44,12 @@ public class FirebaseDBUser extends FirebaseBaseModel
     {
         return myRef.getRef().child("organization").child(orgKey);
     }
+
+    public DatabaseReference getAllUsers()
+    {
+        return myRef.getRef().child("Users");
+    }
+
 
 
 

@@ -9,9 +9,23 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.easy_attendance.firebase.model.FBAuth;
+import com.example.easy_attendance.firebase.model.FirebaseDBUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class MonthlyReport extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     String[] workers ={"test", "test1"};
+    FBAuth mAuth = new FBAuth();
+    String uid = mAuth.getUserID();
+    String keyId;
+    String orgKey;
+    int numOfEmployees;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +33,8 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
 
         Spinner spinnerMonth = (Spinner) findViewById(R.id.spinnerMonth);
         Spinner spinnerWorker = (Spinner) findViewById(R.id.spinnerWorker);
+
+
 
         ArrayAdapter<String> adapterMonth = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.month));
         adapterMonth.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

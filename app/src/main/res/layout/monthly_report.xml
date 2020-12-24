@@ -19,13 +19,37 @@
         android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/txtYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="70dp"
+        android:text="Select Year:"
+        android:layout_below="@id/logoutBtnHT"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+
+    <Spinner
+        android:id="@+id/spinnerYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoutBtnHT"
+        android:layout_alignBottom="@+id/txtYear"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="-14dp"
+        android:layout_toRightOf="@+id/txtYear" />
+
+    <TextView
         android:id="@+id/txtMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="70dp"
         android:text="Select Month:"
-        android:layout_below="@id/logoutBtnHT"
+        android:layout_below="@id/txtYear"
         android:textStyle="bold"
         android:textSize="25dp" />
 
@@ -33,7 +57,7 @@
         android:id="@+id/spinnerMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logoutBtnHT"
+        android:layout_below="@id/spinnerYear"
         android:layout_alignBottom="@+id/txtMonth"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="70dp"

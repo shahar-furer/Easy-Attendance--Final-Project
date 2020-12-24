@@ -1,5 +1,6 @@
 package com.example.easy_attendance;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.easy_attendance.firebase.model.FBAuth;
@@ -19,9 +21,16 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class MonthlyReport extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    String[] workers ={"test", "test1"};
+    private Spinner spinnerYear, spinnerMonth, spinnerWorker;
+    private TextView textWorker;
+    String [] workers;
+    String[] years = {"test", "test2"};
     FBAuth mAuth = new FBAuth();
     String uid = mAuth.getUserID();
+    FirebaseDBUser userDB = new FirebaseDBUser();
+    DatabaseReference userRef = userDB.getUserFromDB(uid);
+    DatabaseReference orgRef;
+    Boolean isManager;
     String keyId;
     String orgKey;
     int numOfEmployees;
@@ -31,21 +40,73 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.monthly_report);
 
-        Spinner spinnerMonth = (Spinner) findViewById(R.id.spinnerMonth);
-        Spinner spinnerWorker = (Spinner) findViewById(R.id.spinnerWorker);
+        spinnerYear = (Spinner) findViewById(R.id.spinnerYear);
+        spinnerMonth = (Spinner) findViewById(R.id.spinnerMonth);
+        spinnerWorker = (Spinner) findViewById(R.id.spinnerWorker);
+        textWorker = (TextView) findViewById(R.id.txtWorker);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                isManager = dataSnapshot.child("isManager").getValue(Boolean.class);
+                keyId = dataSnapshot.child("ID").getValue(String.class);
+                orgKey = dataSnapshot.child("orgKey").getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        if(!(isManager))
+        {
+            spinnerWorker.setVisibility(View.GONE);
+            textWorker.setVisibility(View.GONE);
+
+        }
+        else
+        {
+            orgRef = userDB.getOrganization(orgKey);
+            orgRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    int count = 0;
+                    long numOfW = (dataSnapshot.getChildrenCount())-1;
+                    workers = new String[(int)numOfW] ;
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if (snapshot.getKey() == "Manager")
+                            continue;
+                        workers[count]= snapshot.getKey();
+                        count++;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
 
 
 
+            });
+            ArrayAdapter<String> adapterWorkers = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, workers);
+            adapterWorkers.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            spinnerWorker.setAdapter(adapterWorkers);
+            spinnerWorker.setOnItemSelectedListener(this);
+        }
+
+
+        ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, years);
+        adapterYear.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ArrayAdapter<String> adapterMonth = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.month));
         adapterMonth.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ArrayAdapter<String> adapterWorkers = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, workers);
-        adapterMonth.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 
         spinnerMonth.setAdapter(adapterMonth);
         spinnerMonth.setOnItemSelectedListener(this);
 
-        spinnerWorker.setAdapter(adapterWorkers);
-        spinnerWorker.setOnItemSelectedListener(this);
+
     }
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position,long id) {

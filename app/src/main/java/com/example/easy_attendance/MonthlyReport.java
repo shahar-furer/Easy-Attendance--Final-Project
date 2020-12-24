@@ -33,7 +33,8 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
     Boolean isManager;
     String keyId;
     String orgKey;
-    int numOfEmployees;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +72,8 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     int count = 0;
-                    long numOfW = (dataSnapshot.getChildrenCount())-1;
-                    workers = new String[(int)numOfW] ;
+                    long numOfEmployees = (dataSnapshot.getChildrenCount())-1;
+                    workers = new String[(int)numOfEmployees] ;
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         if (snapshot.getKey() == "Manager")
                             continue;
@@ -85,8 +86,6 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-
-
 
             });
             ArrayAdapter<String> adapterWorkers = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, workers);
@@ -102,16 +101,19 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
         ArrayAdapter<String> adapterMonth = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.month));
         adapterMonth.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        spinnerYear.setAdapter(adapterYear);
+        spinnerYear.setOnItemSelectedListener(this);
 
         spinnerMonth.setAdapter(adapterMonth);
         spinnerMonth.setOnItemSelectedListener(this);
 
-
     }
+
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position,long id) {
-        Toast.makeText(getApplicationContext(), "Selected Month: "+getResources().getStringArray(R.array.month)[position] ,Toast.LENGTH_SHORT).show();
         Toast.makeText(getApplicationContext(), "Selected Worker: "+workers[position] ,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Selected Month: "+getResources().getStringArray(R.array.month)[position] ,Toast.LENGTH_SHORT).show();
+
     }
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {

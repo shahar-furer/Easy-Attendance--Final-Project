@@ -19,13 +19,38 @@
         android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/txtWorker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoutBtnHT"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="78dp"
+        android:text="Select Employ:"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+
+    <Spinner
+        android:id="@+id/spinnerWorker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoutBtnHT"
+        android:layout_alignBottom="@+id/txtWorker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="59dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="-26dp"
+        android:layout_toRightOf="@+id/txtWorker" />
+
+    <TextView
         android:id="@+id/txtYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="70dp"
         android:text="Select Year:"
-        android:layout_below="@id/logoutBtnHT"
+        android:layout_below="@id/txtWorker"
         android:textStyle="bold"
         android:textSize="25dp" />
 
@@ -33,7 +58,7 @@
         android:id="@+id/spinnerYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logoutBtnHT"
+        android:layout_below="@id/spinnerWorker"
         android:layout_alignBottom="@+id/txtYear"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="70dp"
@@ -66,36 +91,12 @@
         android:layout_marginBottom="-14dp"
         android:layout_toRightOf="@+id/txtMonth" />
 
-    <TextView
-        android:id="@+id/txtWorker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtMonth"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="78dp"
-        android:text="Select Employ:"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-
-
-    <Spinner
-        android:id="@+id/spinnerWorker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerMonth"
-        android:layout_alignBottom="@+id/txtWorker"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginLeft="59dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginBottom="-26dp"
-        android:layout_toRightOf="@+id/txtWorker" />
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerWorker"
+        android:layout_below="@id/spinnerMonth"
         android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
         android:background="#D0E8F2"

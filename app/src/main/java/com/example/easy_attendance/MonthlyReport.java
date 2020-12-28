@@ -24,7 +24,6 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
     private Spinner spinnerYear, spinnerMonth, spinnerWorker;
     private TextView textWorker;
     String [] workers;
-    String[] years = {"test", "test2"};
     FBAuth mAuth = new FBAuth();
     String uid = mAuth.getUserID();
     FirebaseDBUser userDB = new FirebaseDBUser();
@@ -77,7 +76,7 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         if (snapshot.getKey() == "Manager")
                             continue;
-                        workers[count]= snapshot.getKey();
+                        workers[count]= snapshot.getKey();  //Option to provide names with "(String)snapshot.getValue();"
                         count++;
                     }
                 }
@@ -96,7 +95,7 @@ public class MonthlyReport extends AppCompatActivity implements AdapterView.OnIt
         }
 
 
-        ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, years);
+        ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.year));
         adapterYear.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ArrayAdapter<String> adapterMonth = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.month));
         adapterMonth.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

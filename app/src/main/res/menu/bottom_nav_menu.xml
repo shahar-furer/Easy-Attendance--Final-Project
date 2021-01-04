@@ -16,5 +16,10 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="Calculate Sallary"/>
 
+    <item
+        android:id="@+id/menu_timer_try"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Timer"/>
+
 
 </menu>

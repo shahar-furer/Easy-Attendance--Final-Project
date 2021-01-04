@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CalculateSallary"
+    android:background="#fff3e2">
+
+
+
+    <TextView
+        android:id="@+id/txtMonthC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="70dp"
+        android:text="Select Month:"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+
+    <Spinner
+        android:id="@+id/spinnerMonthC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txtMonth"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="-14dp"
+        android:layout_toRightOf="@+id/txtMonth" />
+
+    <TextView
+        android:id="@+id/txtYearC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="70dp"
+        android:text="Select Year:"
+        android:layout_below="@id/txtMonthC"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+
+    <Spinner
+        android:id="@+id/spinnerYearC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerMonthC"
+        android:layout_alignBottom="@+id/txtYearC"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="-14dp"
+        android:layout_toRightOf="@+id/txtYearC" />
+
+
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerYearC"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="100dp"
+        android:background="#D0E8F2"
+        android:text="Calculate"
+        android:textColor="#fff"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

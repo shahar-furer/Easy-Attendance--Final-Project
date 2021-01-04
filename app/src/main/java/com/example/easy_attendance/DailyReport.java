@@ -2,13 +2,9 @@ package com.example.easy_attendance;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.Date;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.easy_attendance.firebase.model.FBAuth;
 import com.example.easy_attendance.firebase.model.FirebaseDBTable;
 import com.example.easy_attendance.firebase.model.FirebaseDBUser;
@@ -30,12 +25,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
+
 
 public class DailyReport extends AppCompatActivity  implements View.OnClickListener {
 
     private Button start, end, logout;
     private TextView helloUser;
     public Chronometer chrom;
+    public static boolean isRunning;
     FirebaseDBTable newAttendance = new FirebaseDBTable();
     FirebaseDBUser userDB =new FirebaseDBUser();
     FBAuth auth = new FBAuth();
@@ -53,23 +51,24 @@ public class DailyReport extends AppCompatActivity  implements View.OnClickListe
         end = findViewById(R.id.endBtn);
         logout = findViewById(R.id.logoutBtn);
         chrom = (Chronometer)findViewById(R.id.chronometerWatch);
+        isRunning=false;
         helloUser= findViewById(R.id.textViewHello);
 
         start.setOnClickListener(this);
         end.setOnClickListener(this);
         logout.setOnClickListener(this);
-        chrom.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometerChanged) {
-                chrom = chronometerChanged;
-                long time = SystemClock.elapsedRealtime() - chrom.getBase();
-                int h   = (int)(time /3600000);
-                int m = (int)(time - h*3600000)/60000;
-                int s= (int)(time - h*3600000- m*60000)/1000 ;
-                String t = (h < 10 ? "0"+h: h)+":"+(m < 10 ? "0"+m: m)+":"+ (s < 10 ? "0"+s: s);
-                chrom.setText(t);
-            }
-        });
+//        chrom.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+//            @Override
+//            public void onChronometerTick(Chronometer chronometerChanged) {
+//                chrom = chronometerChanged;
+//                long time = SystemClock.elapsedRealtime() - chrom.getBase();
+//                int h   = (int)(time /3600000);
+//                int m = (int)(time - h*3600000)/60000;
+//                int s= (int)(time - h*3600000- m*60000)/1000 ;
+//                String t = (h < 10 ? "0"+h: h)+":"+(m < 10 ? "0"+m: m)+":"+ (s < 10 ? "0"+s: s);
+//                chrom.setText(t);
+//            }
+//        });
         findUserName();
     }
 
@@ -93,6 +92,8 @@ public class DailyReport extends AppCompatActivity  implements View.OnClickListe
                 Intent mintent = new Intent(DailyReport.this, MonthlyReport.class);
                 startActivity(mintent);
                 break;
+
+
             default:
                 break;
         }
@@ -100,16 +101,35 @@ public class DailyReport extends AppCompatActivity  implements View.OnClickListe
     }
 
 
+    protected void onResume() {
+        super.onResume();
+        if(isRunning) chrom.start();
+    }
+
+    protected void onPause() {
+        super.onPause();
+        if(isRunning) chrom.stop();
+
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        if(isRunning) chrom.stop();
+
+    }
+
 
     @Override
     public void onClick(View v) {
         if (v == start) {
             newAttendance.addEntryToDB(new Date(), chrom);
+
         }
 
         if (v == end) {
             LinearLayout ll =findViewById(R.id.totalHours);
             newAttendance.addExitToAttendance(new Date() , ll);
+
 
 
 //            Snackbar.make(findViewById(R.id.totalHours), "Your total hours is" +total,
@@ -128,6 +148,8 @@ public class DailyReport extends AppCompatActivity  implements View.OnClickListe
 
     }
 
+
+
     private void findUserName() {
 
        DatabaseReference userRef =userDB.getUserFromDB(uid);
@@ -145,6 +167,7 @@ public class DailyReport extends AppCompatActivity  implements View.OnClickListe
 
 
     }
+
 
 
 }

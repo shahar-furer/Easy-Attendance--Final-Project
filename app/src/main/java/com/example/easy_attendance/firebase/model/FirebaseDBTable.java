@@ -7,7 +7,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.easy_attendance.firebase.model.FirebaseBaseModel;
+import com.example.easy_attendance.DailyReport;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +28,6 @@ public class FirebaseDBTable extends FirebaseBaseModel {
     SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
     SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat hourOnlyFormat = new SimpleDateFormat("HH");
-    private String totalHours = "0";
 
     FBAuth mAuth = new FBAuth();
     String uid = mAuth.getUserID();
@@ -62,7 +62,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         @Override
         public void onDataChange(DataSnapshot snapshot) {
             if (!(snapshot.hasChild(day))) {
-            startChrom();
+            //startChrom();
                 writeNewAttendance( year,month, day ,hour);
             }
         }
@@ -78,12 +78,9 @@ public class FirebaseDBTable extends FirebaseBaseModel {
     private void writeNewAttendance(String year ,String month,String day,String hour)
     {
         myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("entry").setValue(hour); //if we build the DB as hashMap, then will change the Entry/Exit
+        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("00:00:00");
     }
 
-    private void addExitAttendance(String year ,String month,String day,String hour)
-    {
-        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("entry").setValue(hour); //if we build the DB as hashMap, then will change the Entry/Exit
-    }
 
     public void addExitToAttendance(Date d, LinearLayout ll)
     {
@@ -97,11 +94,16 @@ public class FirebaseDBTable extends FirebaseBaseModel {
                 if (snapshot.hasChild(day)) {
                     if ((snapshot.child(day).hasChild("entry"))&&(!(snapshot.child(day).hasChild("exit")))) {
                         myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("exit").setValue(hour); //if we build the DB as hashMap, then will change the Entry/Exit
-                        stopChrom();
-                        String total= (String) chronomoter.getText();
+                        if(DailyReport.isRunning) stopChrom();
+                        String entryHour =snapshot.child("entry").getValue(String.class);
+                        String exitHour =hour;
+                        Log.d("entry hour " , entryHour);
+                        int t1 = getTotalMinutes(entryHour);
+                        int t2 = getTotalMinutes(exitHour);
+                        int result = Math.abs(t1 - t2);
+                        String total = getResult(result);
                         myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue(total);
-                        totalHours = total;
-                        Snackbar.make(ll, "Your total hours is" +total,
+                        Snackbar.make(ll, "Your total hours is " +total,
                         Snackbar.LENGTH_SHORT)
                         .show();
 
@@ -123,7 +125,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
                                     int result = Math.abs(t1 - t2);
                                     String total = getResult(result);
                                     myRef.child("Attendance").child(keyId).child(year).child(month).child(Integer.toString(prevDay)).child("total").setValue(total); //if we build the DB as hashMap, then will change the Entry/Exit
-                                    Snackbar.make(ll, "Your total hours is" +total,
+                                    Snackbar.make(ll, "Your total hours is " +total,
                                     Snackbar.LENGTH_SHORT)
                                     .show();
 
@@ -132,7 +134,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
                             else {
                                 myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("entry").setValue("09:00:00"); //if we build the DB as hashMap, then will change the Entry/Exit
                                 myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("exit").setValue(hour);
-                                myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("0");//if we build the DB as hashMap, then will change the Entry/Exit
+                                myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("00:00:00");//if we build the DB as hashMap, then will change the Entry/Exit
                                 Snackbar.make(ll, "Your total hours is 0 ,no entry was registered" ,
                                 Snackbar.LENGTH_SHORT)
                                 .show();
@@ -156,9 +158,9 @@ public class FirebaseDBTable extends FirebaseBaseModel {
 
     }
 
-   public DatabaseReference getAttendanceFromDB (String month) //not finished. need loop for printing all the dates
+   public DatabaseReference getAttendanceFromDB (String UserID,String year,String month) //not finished. need loop for printing all the dates
    {
-       return myRef.getRef().child("Attendance").child(uid).child(month);
+       return myRef.getRef().child("Attendance").child(UserID).child(year).child(month);
    }
 
 
@@ -167,11 +169,13 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         chronomoter.setBase(SystemClock.elapsedRealtime());
         chronomoter.setText("00:00:00");
         chronomoter.start();
+        DailyReport.isRunning=true;
 
     }
 
     public void stopChrom(){
         chronomoter.stop();
+        DailyReport.isRunning=false;
     }
 
 

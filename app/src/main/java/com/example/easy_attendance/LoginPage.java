@@ -34,6 +34,8 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         login.setOnClickListener(this);
     }
 
+
+
         @Override
     public void onClick(View v) {
         if (v == login) {

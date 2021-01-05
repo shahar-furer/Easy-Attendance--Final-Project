@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class WorkersList extends AppCompatActivity implements View.OnClickListener{
-
+    String [] idArray;
     FBAuth mAuth = new FBAuth();
     String uid = mAuth.getUserID();
     FirebaseDBUser userDB = new FirebaseDBUser();
@@ -36,6 +37,7 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
     private EditText edtSalary;
     private Button changeSalary;
     private ArrayList<Model> workersList;
+    listviewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
 
         workersList = new ArrayList<Model>();
         ListView lview = (ListView) findViewById(R.id.listview);
-        listviewAdapter adapter = new listviewAdapter(this, workersList);
+        adapter = new listviewAdapter(this, workersList);
         lview.setAdapter(adapter);
 
        // changeSalary = (Button) findViewById(R.id.changeSalary);
@@ -53,28 +55,14 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                orgKey = dataSnapshot.child("orgKey").getValue(String.class);
+                updateOrgKey(dataSnapshot);
+                //orgKey = dataSnapshot.child("orgKey").getValue(String.class);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
 
-        orgRef = userDB.getOrganization(orgKey);
-        orgRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Model model =workerInformation(snapshot.getKey());
-                    workersList.add(model);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        adapter.notifyDataSetChanged();
         lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -93,26 +81,67 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+    private void updateOrgKey(DataSnapshot dataSnapshot) {
+        orgKey = dataSnapshot.child("orgKey").getValue(String.class);
+        orgRef = userDB.getOrganization(orgKey);
+
+        orgRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long numOfEmployees = (dataSnapshot.getChildrenCount());
+                idArray = new String[(int)numOfEmployees] ;
+                int count = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if (snapshot.getKey() == "Manager")
+                        continue;
+                    idArray[count] = snapshot.getKey();
+                    count++;
+                }
+
+                workerInformation();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
 
-    public Model workerInformation(String uid)
+    }
+
+    public void workerInformation() //(String uid)
     {
         final Model[] m = new Model[1];
-        userRef = userDB.getUserFromDB(uid);
+        userRef = userDB.getAllUsers();  // or: userRef = userDB.getUserFromDB(uid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String fName = dataSnapshot.child("fName").getValue(String.class);
-                String lName = dataSnapshot.child("lName").getValue(String.class);
-                workerName = fName+ lName;
-                workerId = dataSnapshot.child("ID").getValue(String.class);
-                m[0] = new Model(workerId, workerName, "0", "0");
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    for(int i = 0; i < idArray.length; i++)
+                    {
+                        Log.d("TAG", "onDataChange: "+idArray [i]);
+                        Log.d("22", "onDataChange: "+ snapshot.child("ID").getValue(String.class)); // return null
+                        if (snapshot.child("ID").getValue(String.class).equals(idArray [i]))
+                        {
+                            Log.d("get in for", "onDataChange: ");
+                            String fName = snapshot.child("fName").getValue(String.class);
+                            String lName = snapshot.child("lName").getValue(String.class);
+                            workerName = fName+ " "+ lName;
+                            Log.d("name", "onDataChange: "+ workerName);
+                            Model model = new Model(idArray[i], workerName,  "0", "0");
+                            workersList.add(model);
+                        }
+                    }
+                }
+                Log.d("list", "onDataChange: "+ workersList.toString());
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        return m[0];
+
     }
 
 

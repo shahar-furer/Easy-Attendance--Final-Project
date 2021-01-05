@@ -93,14 +93,14 @@
 
 
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/downloadPdf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/spinnerMonth"
         android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
         android:background="#D0E8F2"
-        android:text="SUBMIT"
+        android:text="DOWNLOAD PDF"
         android:textColor="#fff"
         android:layout_centerHorizontal="true"
         android:textSize="18sp" />

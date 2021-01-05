@@ -8,66 +8,142 @@
     android:background="#fff3e2">
 
 
-
-    <TextView
-        android:id="@+id/txtMonthC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="70dp"
-        android:text="Select Month:"
-        android:textStyle="bold"
-        android:textSize="25dp" />
-
-    <Spinner
-        android:id="@+id/spinnerMonthC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txtMonth"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginLeft="84dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="-14dp"
-        android:layout_toRightOf="@+id/txtMonth" />
-
     <TextView
         android:id="@+id/txtYearC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="34dp"
         android:text="Select Year:"
-        android:layout_below="@id/txtMonthC"
-        android:textStyle="bold"
         android:textSize="25dp" />
 
     <Spinner
         android:id="@+id/spinnerYearC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerMonthC"
-        android:layout_alignBottom="@+id/txtYearC"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="70dp"
         android:layout_marginLeft="84dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="34dp"
         android:layout_marginBottom="-14dp"
         android:layout_toRightOf="@+id/txtYearC" />
+
+
+    <TextView
+        android:id="@+id/txtMonthC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="34dp"
+        android:layout_below="@id/txtYearC"
+        android:text="Select Month:"
+        android:textSize="25dp" />
+
+    <Spinner
+        android:id="@+id/spinnerMonthC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerYearC"
+        android:layout_alignBottom="@+id/txtMonth"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="-14dp"
+        android:layout_toRightOf="@+id/txtMonthC" />
+
+
 
 
     <Button
         android:id="@+id/calculateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerYearC"
+        android:layout_below="@id/spinnerMonthC"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:background="#D0E8F2"
         android:text="Calculate"
         android:textColor="#fff"
         android:layout_centerHorizontal="true"
         android:textSize="18sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:id="@+id/cardTotal"
+        android:layout_height="350dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/calculateButton"
+        android:layout_marginTop="50dp"
+        app:cardBackgroundColor="#48DC"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="10dp"
+        android:padding="12dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtTotal"
+                android:layout_width="133dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="34dp"
+                android:text="Overall:"
+                android:textSize="25dp" />
+
+
+
+            <TextView
+                android:id="@+id/txtTotalYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="34dp"
+                android:layout_below="@id/txtTotal"
+                android:text="Year:"
+                android:textSize="20dp" />
+
+
+
+
+    <TextView
+        android:id="@+id/txtTotalMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="34dp"
+        android:layout_below="@id/txtTotalYear"
+        android:text="Month:"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/txtTotalHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="34dp"
+        android:layout_below="@id/txtTotalMonth"
+        android:text="Total Hours:"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/txtTotalPay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="34dp"
+        android:layout_below="@id/txtTotalHours"
+        android:text="Total Pay:"
+        android:textSize="20dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
 
 
 </RelativeLayout>

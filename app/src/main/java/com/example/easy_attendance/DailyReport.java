@@ -93,6 +93,18 @@ public class DailyReport extends AppCompatActivity  implements View.OnClickListe
                 startActivity(mintent);
                 break;
 
+            case R.id.menu_calc_sallary:
+                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
+                Intent tintent = new Intent(DailyReport.this, CalculateSallary.class);
+                startActivity(tintent);
+                break;
+
+            case R.id.menu_workers_list:
+                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
+                Intent wintent = new Intent(DailyReport.this, WorkersList.class);
+                startActivity(wintent);
+                break;
+
 
             default:
                 break;

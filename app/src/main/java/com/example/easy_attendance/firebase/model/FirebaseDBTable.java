@@ -163,6 +163,11 @@ public class FirebaseDBTable extends FirebaseBaseModel {
        return myRef.getRef().child("Attendance").child(UserID).child(year).child(month);
    }
 
+    public DatabaseReference getUserAttendanceFromDB (String UserID) //not finished. need loop for printing all the dates
+    {
+        return myRef.getRef().child("Attendance").child(UserID);
+    }
+
 
     public void startChrom(){
 

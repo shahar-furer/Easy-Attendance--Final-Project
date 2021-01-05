@@ -17,9 +17,9 @@
         android:title="Calculate Sallary"/>
 
     <item
-        android:id="@+id/menu_timer_try"
+        android:id="@+id/menu_workers_list"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Timer"/>
+        android:title="Workers List"/>
 
 
 </menu>

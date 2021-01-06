@@ -93,6 +93,8 @@ public class listviewAdapter extends BaseAdapter {
             @Override
             public void afterTextChanged(Editable s) {
                 Log.d("TAG", "afterTextChanged: "+s);
+                Log.d("position", "afterTextChanged: "+position);
+                Log.d("id from list", "afterTextChanged: "+ workersList.get(position).getID());
             }
         });
         {

@@ -149,6 +149,7 @@ public class RegistrationPage extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
+                    //danielle test
 
 
 

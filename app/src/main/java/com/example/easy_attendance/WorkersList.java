@@ -121,10 +121,12 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
                     {
                         if (snapshot.child("ID").getValue(String.class).equals(idArray [i]))
                         {
+                            String FBid = snapshot.getKey();
+                            Log.d("FBid", "onDataChange: "+ FBid);
                             String fName = snapshot.child("fName").getValue(String.class);
                             String lName = snapshot.child("lName").getValue(String.class);
                             workerName = fName+ " "+ lName;
-                            Model model = new Model(idArray[i], workerName,  "0", "0");
+                            Model model = new Model(FBid, idArray[i], workerName,  "0", "0");
                             workersList.add(model);
                         }
                     }
@@ -137,6 +139,7 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
         });
 
     }
+
 
 
     public void changeSalary(View view) {

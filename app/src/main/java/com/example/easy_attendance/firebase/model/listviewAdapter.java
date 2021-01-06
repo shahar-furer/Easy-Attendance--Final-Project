@@ -79,24 +79,17 @@ public class listviewAdapter extends BaseAdapter {
         //holder.mPrice.setText(item.getPrice().toString());
         //holder.newPass
 
-        holder.newPass.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+        holder.newPass.setOnFocusChangeListener(new View.OnFocusChangeListener(){
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                Log.d("TAG", "afterTextChanged: "+s);
-                Log.d("position", "afterTextChanged: "+position);
-                Log.d("id from list", "afterTextChanged: "+ workersList.get(position).getID());
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && holder.newPass.getText() !=null)
+                {
+                    Log.d("the new pass", "onFocusChange: "+ holder.newPass.getText().toString() + "  i"+ position);
+                }
             }
         });
+
         {
 
 

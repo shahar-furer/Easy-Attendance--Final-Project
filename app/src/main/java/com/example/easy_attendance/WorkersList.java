@@ -69,14 +69,14 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
 
                 String ID = ((TextView)view.findViewById(R.id.id)).getText().toString();
                 String Name = ((TextView)view.findViewById(R.id.name)).getText().toString();
-                String ResetPassword = ((TextView)view.findViewById(R.id.resetPassword)).getText().toString();
-                String price = ((TextView)view.findViewById(R.id.price)).getText().toString();
+                //String ResetPassword = ((TextView)view.findViewById(R.id.resetPassword)).getText().toString();
+                //String price = ((TextView)view.findViewById(R.id.price)).getText().toString();
 
                 Toast.makeText(getApplicationContext(),
                         "ID : " + ID +"\n"
-                                +"Name : " + Name +"\n"
-                                +"ResetPassword : " +ResetPassword +"\n"
-                                +"Price : " +price, Toast.LENGTH_SHORT).show();
+                                +"Name : " + Name +"\n", Toast.LENGTH_SHORT).show();
+                               // +"ResetPassword : " +ResetPassword +"\n"
+                               // +"Price : " +price,
             }
         });
     }
@@ -111,7 +111,6 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
 
     public void workerInformation() //(String uid)
     {
-        final Model[] m = new Model[1];
         userRef = userDB.getAllUsers();  // or: userRef = userDB.getUserFromDB(uid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -120,21 +119,16 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
                 {
                     for(int i = 0; i < idArray.length; i++)
                     {
-                        Log.d("TAG", "onDataChange: "+idArray [i]);
-                        Log.d("22", "onDataChange: "+ snapshot.child("ID").getValue(String.class)); // return null
                         if (snapshot.child("ID").getValue(String.class).equals(idArray [i]))
                         {
-                            Log.d("get in for", "onDataChange: ");
                             String fName = snapshot.child("fName").getValue(String.class);
                             String lName = snapshot.child("lName").getValue(String.class);
                             workerName = fName+ " "+ lName;
-                            Log.d("name", "onDataChange: "+ workerName);
                             Model model = new Model(idArray[i], workerName,  "0", "0");
                             workersList.add(model);
                         }
                     }
                 }
-                Log.d("list", "onDataChange: "+ workersList.toString());
                 adapter.notifyDataSetChanged();
             }
             @Override

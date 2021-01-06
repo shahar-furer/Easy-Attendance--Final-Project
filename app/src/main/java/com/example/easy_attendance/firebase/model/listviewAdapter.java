@@ -1,10 +1,14 @@
 package com.example.easy_attendance.firebase.model;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.easy_attendance.R;
@@ -42,8 +46,10 @@ public class listviewAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView mID;
         TextView mName;
-        TextView mResetPassword;
-        TextView mPrice;
+        //TextView mResetPassword;
+        //TextView mPrice;
+        EditText newPass;
+        EditText newSalary;
     }
 
     @Override
@@ -57,9 +63,10 @@ public class listviewAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.mID = (TextView) convertView.findViewById(R.id.id);
             holder.mName = (TextView) convertView.findViewById(R.id.name);
-            holder.mResetPassword = (TextView) convertView
-                    .findViewById(R.id.resetPassword);
-            holder.mPrice = (TextView) convertView.findViewById(R.id.price);
+            //holder.mResetPassword = (TextView) convertView.findViewById(R.id.resetPassword);
+            holder.newPass = (EditText) convertView.findViewById(R.id.editPassword);
+            holder.newSalary = (EditText) convertView.findViewById(R.id.changeSalary);
+            //holder.mPrice = (TextView) convertView.findViewById(R.id.price);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -68,9 +75,30 @@ public class listviewAdapter extends BaseAdapter {
         Model item = workersList.get(position);
         holder.mID.setText(item.getID().toString());
         holder.mName.setText(item.getName().toString());
-        holder.mResetPassword.setText(item.getResetPassword().toString());
-        holder.mPrice.setText(item.getPrice().toString());
+        //holder.mResetPassword.setText(item.getResetPassword().toString());
+        //holder.mPrice.setText(item.getPrice().toString());
+        //holder.newPass
 
-        return convertView;
+        holder.newPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("TAG", "afterTextChanged: "+s);
+            }
+        });
+        {
+
+
+            return convertView;
+        }
     }
 }

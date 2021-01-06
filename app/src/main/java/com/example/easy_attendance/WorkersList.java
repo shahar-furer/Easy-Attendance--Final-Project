@@ -33,9 +33,6 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
     DatabaseReference orgRef;
     String orgKey;
     String workerName;
-    String workerId;
-    private EditText edtSalary;
-    private Button changeSalary;
     private ArrayList<Model> workersList;
     listviewAdapter adapter;
 
@@ -49,14 +46,11 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
         adapter = new listviewAdapter(this, workersList);
         lview.setAdapter(adapter);
 
-       // changeSalary = (Button) findViewById(R.id.changeSalary);
-       // changeSalary.setOnClickListener(this);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 updateOrgKey(dataSnapshot);
-                //orgKey = dataSnapshot.child("orgKey").getValue(String.class);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -69,14 +63,10 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
 
                 String ID = ((TextView)view.findViewById(R.id.id)).getText().toString();
                 String Name = ((TextView)view.findViewById(R.id.name)).getText().toString();
-                //String ResetPassword = ((TextView)view.findViewById(R.id.resetPassword)).getText().toString();
-                //String price = ((TextView)view.findViewById(R.id.price)).getText().toString();
 
                 Toast.makeText(getApplicationContext(),
                         "ID : " + ID +"\n"
                                 +"Name : " + Name +"\n", Toast.LENGTH_SHORT).show();
-                               // +"ResetPassword : " +ResetPassword +"\n"
-                               // +"Price : " +price,
             }
         });
     }
@@ -126,7 +116,7 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
                             String fName = snapshot.child("fName").getValue(String.class);
                             String lName = snapshot.child("lName").getValue(String.class);
                             workerName = fName+ " "+ lName;
-                            Model model = new Model(FBid, idArray[i], workerName,  "0", "0");
+                            Model model = new Model(FBid, idArray[i], workerName);
                             workersList.add(model);
                         }
                     }
@@ -141,16 +131,8 @@ public class WorkersList extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
-    public void changeSalary(View view) {
-    }
-
     @Override
     public void onClick(View v) {
-       // if (v== changePass)
 
-    }
-
-    public void changePass(View view) {
     }
 }

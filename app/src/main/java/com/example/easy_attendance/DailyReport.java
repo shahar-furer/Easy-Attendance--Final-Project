@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 
@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Date;
 
 
-public class DailyReport extends AppCompatActivity  implements View.OnClickListener {
+public class DailyReport extends Menu implements View.OnClickListener {
 
     private Button start, end, logout;
     private TextView helloUser;
@@ -73,44 +73,6 @@ public class DailyReport extends AppCompatActivity  implements View.OnClickListe
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.bottom_nav_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_daily_report:
-                Toast.makeText(this, "Clicked Menu 1", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DailyReport.this, DailyReport.class);
-                startActivity(intent);
-                break;
-            case R.id.menu_monthly_report:
-                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
-                Intent mintent = new Intent(DailyReport.this, MonthlyReport.class);
-                startActivity(mintent);
-                break;
-
-            case R.id.menu_calc_sallary:
-                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
-                Intent tintent = new Intent(DailyReport.this, CalculateSallary.class);
-                startActivity(tintent);
-                break;
-
-            case R.id.menu_workers_list:
-                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
-                Intent wintent = new Intent(DailyReport.this, WorkersList.class);
-                startActivity(wintent);
-                break;
-
-
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     protected void onResume() {
@@ -149,14 +111,6 @@ public class DailyReport extends AppCompatActivity  implements View.OnClickListe
 //                    .show();
         }
 
-        if (v == logout) {
-            Toast.makeText(getApplicationContext(), "logout button was pressed", Toast.LENGTH_LONG).show();
-
-            auth.signOut();
-            Intent intent = new Intent(DailyReport.this, LoginPage.class);
-            startActivity(intent);
-
-        }
 
     }
 

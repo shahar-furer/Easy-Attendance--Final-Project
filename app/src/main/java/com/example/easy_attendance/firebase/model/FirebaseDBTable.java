@@ -50,7 +50,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         });
     }
 
-    public void addEntryToDB(Date d, Chronometer c)
+    public void addEntryToDB(Date d, Chronometer c , LinearLayout ll)
     {
 
         String year = yearFormat.format(d);
@@ -58,12 +58,31 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         String day = dayFormat.format(d);
         String hour= hourFormat.format(d);
         chronomoter=c;
+        int prevDay = Integer.parseInt(day)-1;
+        myRef.child("Attendance").child(keyId).child(year).child(month).child(String.valueOf(prevDay)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild("entry")&&(!(snapshot.hasChild("exit")))) {
+                    myRef.child("Attendance").child(keyId).child(year).child(month).child(String.valueOf(prevDay)).child("exit").setValue("18:00:00"); //if we build the DB as hashMap, then will change the Entry/Exit
+                    Snackbar.make(ll, "Exit did not registered  yesterday , default exit registered.",
+                            Snackbar.LENGTH_SHORT)
+                            .show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         myRef.child("Attendance").child(keyId).child(year).child(month).addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot snapshot) {
             if (!(snapshot.hasChild(day))) {
-            //startChrom();
-                writeNewAttendance( year,month, day ,hour);
+            startChrom();
+            writeNewAttendance( year,month, day ,hour);
             }
         }
 
@@ -78,7 +97,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
     private void writeNewAttendance(String year ,String month,String day,String hour)
     {
         myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("entry").setValue(hour); //if we build the DB as hashMap, then will change the Entry/Exit
-        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("00:00:00");
+        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("00:00");
     }
 
 
@@ -95,9 +114,8 @@ public class FirebaseDBTable extends FirebaseBaseModel {
                     if ((snapshot.child(day).hasChild("entry"))&&(!(snapshot.child(day).hasChild("exit")))) {
                         myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("exit").setValue(hour); //if we build the DB as hashMap, then will change the Entry/Exit
                         if(DailyReport.isRunning) stopChrom();
-                        String entryHour =snapshot.child("entry").getValue(String.class);
+                        String entryHour =snapshot.child(day).child("entry").getValue(String.class);
                         String exitHour =hour;
-                        Log.d("entry hour " , entryHour);
                         int t1 = getTotalMinutes(entryHour);
                         int t2 = getTotalMinutes(exitHour);
                         int result = Math.abs(t1 - t2);
@@ -134,7 +152,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
                             else {
                                 myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("entry").setValue("09:00:00"); //if we build the DB as hashMap, then will change the Entry/Exit
                                 myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("exit").setValue(hour);
-                                myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("00:00:00");//if we build the DB as hashMap, then will change the Entry/Exit
+                                myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("00:00");//if we build the DB as hashMap, then will change the Entry/Exit
                                 Snackbar.make(ll, "Your total hours is 0 ,no entry was registered" ,
                                 Snackbar.LENGTH_SHORT)
                                 .show();

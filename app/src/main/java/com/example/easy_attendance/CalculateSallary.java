@@ -24,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class CalculateSallary extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class CalculateSallary extends Menu implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnClickListener {
     private Button calc;
     private Spinner month , year;
     private TextView totalYearTxtview , totalMonthTxtview , totalHoursTxtview ,totalPayTxtView;

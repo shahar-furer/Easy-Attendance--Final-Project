@@ -51,7 +51,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MonthlyReport extends AppCompatActivity implements OnItemSelectedListener, View.OnClickListener {
+public class MonthlyReport extends Menu implements OnItemSelectedListener, View.OnClickListener {
     private Spinner spinnerYear, spinnerMonth, spinnerWorker;
     private TextView textWorker;
     String[][] daysTimes;

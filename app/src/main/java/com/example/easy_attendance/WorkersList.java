@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class WorkersList extends AppCompatActivity implements View.OnClickListener{
+public class WorkersList extends Menu implements View.OnClickListener{
     String [] idArray;
     FBAuth mAuth = new FBAuth();
     String uid = mAuth.getUserID();

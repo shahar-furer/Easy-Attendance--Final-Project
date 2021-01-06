@@ -39,6 +39,7 @@ public class DailyReport extends Menu implements View.OnClickListener {
     FBAuth auth = new FBAuth();
     String uid= auth.getUserID();
     String userName;
+    LinearLayout ll;
 
 
 
@@ -52,6 +53,7 @@ public class DailyReport extends Menu implements View.OnClickListener {
         chrom = (Chronometer)findViewById(R.id.chronometerWatch);
         isRunning=false;
         helloUser= findViewById(R.id.textViewHello);
+         ll =findViewById(R.id.totalHours);
 
         start.setOnClickListener(this);
         end.setOnClickListener(this);
@@ -75,18 +77,18 @@ public class DailyReport extends Menu implements View.OnClickListener {
 
     protected void onResume() {
         super.onResume();
-        if(isRunning) chrom.start();
+        if(isRunning == true) chrom.start();
     }
 
     protected void onPause() {
         super.onPause();
-        if(isRunning) chrom.stop();
+        if(isRunning == true) chrom.stop();
 
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        if(isRunning) chrom.stop();
+        if(isRunning == true) chrom.stop();
 
     }
 
@@ -94,12 +96,12 @@ public class DailyReport extends Menu implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == start) {
-            newAttendance.addEntryToDB(new Date(), chrom);
+            newAttendance.addEntryToDB(new Date(), chrom ,ll);
 
         }
 
         if (v == end) {
-            LinearLayout ll =findViewById(R.id.totalHours);
+
             newAttendance.addExitToAttendance(new Date() , ll);
 
 

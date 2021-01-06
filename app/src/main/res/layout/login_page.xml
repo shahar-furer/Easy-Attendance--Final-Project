@@ -40,43 +40,29 @@
         android:inputType="textPassword"
         android:rotationX="2" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
-        android:id="@+id/card1"
-        android:layout_height="50dp"
-        android:layout_below="@+id/editTextTextPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        app:cardBackgroundColor="#ebcfc4"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="10dp"
-        android:padding="12dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
             <Button
                 android:id="@+id/loginBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editTextTextPassword"
                 android:layout_centerInParent="true"
                 android:text="LOGIN"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="#ebcfc4"
                 android:textColor="#fff"
                 android:textSize="24sp" />
 
-        </RelativeLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
     <Button
         android:id="@+id/registerBtn"
-        android:layout_width="147dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/card1"
+        android:layout_below="@id/loginBtn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="No account yet? Create one"
-        android:textSize="10sp" />
+        android:backgroundTint="#fff3e2"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        style="?android:attr/borderlessButtonStyle"/>
 </RelativeLayout>

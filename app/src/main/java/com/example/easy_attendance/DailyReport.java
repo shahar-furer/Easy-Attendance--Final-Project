@@ -49,14 +49,12 @@ public class DailyReport extends Menu implements View.OnClickListener {
         userDB =new FirebaseDBUser();
         start = findViewById(R.id.startBtn);
         end = findViewById(R.id.endBtn);
-        logout = findViewById(R.id.logoutBtn);
         chrom = (Chronometer)findViewById(R.id.chronometerWatch);
         isRunning=false;
         helloUser= findViewById(R.id.textViewHello);
 
         start.setOnClickListener(this);
         end.setOnClickListener(this);
-        logout.setOnClickListener(this);
 //        chrom.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
 //            @Override
 //            public void onChronometerTick(Chronometer chronometerChanged) {

@@ -63,8 +63,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="80dp"
         android:background="#D0E8F2"
+        android:backgroundTint="#e6ccb3"
         android:text="Calculate"
-        android:textColor="#fff"
+        android:textColor="#990000"
         android:layout_centerHorizontal="true"
         android:textSize="18sp" />
 

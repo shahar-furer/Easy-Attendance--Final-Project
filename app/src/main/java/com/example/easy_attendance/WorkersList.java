@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,16 +36,18 @@ public class WorkersList extends Menu implements View.OnClickListener{
     String workerName;
     private ArrayList<Model> workersList;
     listviewAdapter adapter;
+    LinearLayout lL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.workers_list);
-
+        lL =findViewById(R.id.massage);
         workersList = new ArrayList<Model>();
         ListView lview = (ListView) findViewById(R.id.listview);
-        adapter = new listviewAdapter(this, workersList);
+        adapter = new listviewAdapter(this, workersList, lL);
         lview.setAdapter(adapter);
+
 
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {

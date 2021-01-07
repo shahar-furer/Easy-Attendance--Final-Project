@@ -1,7 +1,8 @@
 package com.example.easy_attendance.firebase.model;
 
 import android.app.Activity;
-import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.easy_attendance.R;
 import com.example.easy_attendance.firebase.model.dataObject.Model;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
@@ -19,16 +21,17 @@ public class listviewAdapter extends BaseAdapter {
 
     public ArrayList<Model> workersList;
     Activity activity;
-
+    LinearLayout lL;
     FBAuth mAuth = new FBAuth();
     String uid = mAuth.getUserID();
     FirebaseDBUser userDB = new FirebaseDBUser();
     DatabaseReference userRef = userDB.getUserFromDB(uid);
 
-    public listviewAdapter(Activity activity, ArrayList<Model> workersList) {
+    public listviewAdapter(Activity activity, ArrayList<Model> workersList, LinearLayout lL) {
         super();
         this.activity = activity;
         this.workersList = workersList;
+        this.lL = lL;
     }
 
     @Override
@@ -77,6 +80,26 @@ public class listviewAdapter extends BaseAdapter {
         holder.mID.setText(item.getID().toString());
         holder.mName.setText(item.getName().toString());
 
+        holder.newPass.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on Enter key press
+                    holder.newPass.clearFocus();
+                 /*   if (holder.newPass.getText() !=null)
+                    {
+                        userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
+                        userRef.child("password").setValue(holder.newPass.getText().toString());
+                        Snackbar.make(lL,workersList.get(position).getID()+  " Password Updated Successfully!", Snackbar.LENGTH_SHORT).show();
+                    } */
+                    return true;
+                }
+                return false;
+            }
+        });
+
         holder.newPass.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -84,7 +107,29 @@ public class listviewAdapter extends BaseAdapter {
                 {
                     userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
                     userRef.child("password").setValue(holder.newPass.getText().toString());
+                    Snackbar.make(lL,workersList.get(position).getID()+  " Password Updated Successfully!", Snackbar.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        holder.newSalary.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on Enter key press
+                    holder.newSalary.clearFocus();
+                 /*   if (holder.newSalary.getText() !=null)
+                    {
+                        userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
+                        userRef.child("hourlyPay").setValue(holder.newSalary.getText().toString());
+                        Snackbar.make(lL,workersList.get(position).getID()+  " Hour Salary Updated Successfully!", Snackbar.LENGTH_SHORT).show();
+                    } */
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -95,9 +140,12 @@ public class listviewAdapter extends BaseAdapter {
                 {
                     userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
                     userRef.child("hourlyPay").setValue(holder.newSalary.getText().toString());
+                    Snackbar.make(lL,workersList.get(position).getID()+  " Hour Salary Updated Successfully!", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
+
+
 
         {
 

@@ -32,6 +32,7 @@ public class DailyReport extends Menu implements View.OnClickListener {
 
     private Button start, end, logout;
     private TextView helloUser;
+    private TextView date;
     public Chronometer chrom;
     public static boolean isRunning;
     FirebaseDBTable newAttendance = new FirebaseDBTable();
@@ -53,6 +54,7 @@ public class DailyReport extends Menu implements View.OnClickListener {
         chrom = (Chronometer)findViewById(R.id.chronometerWatch);
         isRunning=false;
         helloUser= findViewById(R.id.textViewHello);
+        date = findViewById(R.id.textViewDate);
          ll =findViewById(R.id.totalHours);
 
         start.setOnClickListener(this);
@@ -124,6 +126,7 @@ public class DailyReport extends Menu implements View.OnClickListener {
             public void onDataChange(DataSnapshot dataSnapshot) {
                userName =dataSnapshot.child("fName").getValue(String.class);
                 helloUser.append("Hello "+userName);
+                date.append(new Date().toString());
             }
 
             @Override

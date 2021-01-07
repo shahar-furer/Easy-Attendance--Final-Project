@@ -103,7 +103,7 @@ public class listviewAdapter extends BaseAdapter {
         holder.newPass.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && holder.newPass.getText() !=null)
+                if (!hasFocus && holder.newPass.getText().length() !=0)
                 {
                     userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
                     userRef.child("password").setValue(holder.newPass.getText().toString());
@@ -136,7 +136,7 @@ public class listviewAdapter extends BaseAdapter {
         holder.newSalary.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && holder.newSalary.getText() !=null)
+                if (!hasFocus && holder.newSalary.getText().length() !=0)
                 {
                     userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
                     userRef.child("hourlyPay").setValue(holder.newSalary.getText().toString());

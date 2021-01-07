@@ -45,7 +45,7 @@
             android:padding = "5dp"
             android:ems="10"
             android:hint="New Password"
-            android:textColorHint="#d9b38c"
+            android:textColorHint="#e6ccb3"
             android:textSize="12dp"
             android:textColor="#cc9966"/>
 
@@ -59,7 +59,7 @@
             android:padding = "5dp"
             android:ems="10"
             android:hint="Hour Salary"
-            android:textColorHint="#d9b38c"
+            android:textColorHint="#e6ccb3"
             android:textSize="12dp"
             android:textColor="#cc9966"/>
 

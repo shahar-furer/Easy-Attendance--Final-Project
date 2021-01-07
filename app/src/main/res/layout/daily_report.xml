@@ -25,7 +25,7 @@
         android:layout_below="@+id/textViewHello"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        app:cardBackgroundColor="#48D1CC"
+        app:cardBackgroundColor="#e6ccb3"
         app:cardCornerRadius="2dp"
         app:cardElevation="10dp"
         android:padding="12dp">
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:textColor="#fff"
+                android:textColor="#990000"
                 android:textSize="40dp"/>
 
         </RelativeLayout>
@@ -54,7 +54,7 @@
         android:layout_below="@+id/cardChromoter"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        app:cardBackgroundColor="#48D1CC"
+        app:cardBackgroundColor="#e6ccb3"
         app:cardCornerRadius="2dp"
         app:cardElevation="10dp"
         android:padding="12dp">
@@ -69,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="START"
-                android:textColor="#fff"
+                android:backgroundTint="#e6ccb3"
+                android:textColor="#990000"
                 android:textSize="24sp" />
 
         </RelativeLayout>
@@ -83,7 +84,7 @@
         android:layout_below="@+id/cardStart"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        app:cardBackgroundColor="#48D1CC"
+        app:cardBackgroundColor="#e6ccb3"
         app:cardCornerRadius="2dp"
         app:cardElevation="10dp"
         android:padding="12dp">
@@ -98,7 +99,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="END"
-                android:textColor="#fff"
+                android:textColor="#990000"
+                android:backgroundTint="#e6ccb3"
                 android:textSize="24sp" />
 
 

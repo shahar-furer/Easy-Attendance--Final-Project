@@ -14,11 +14,12 @@
             android:id = "@+id/id"
             android:layout_width = "0dp"
             android:layout_height = "match_parent"
-            android:layout_weight = "1.5"
+            android:layout_weight = "1.2"
             android:background = "@drawable/cell_shape"
             android:ellipsize = "end"
             android:padding = "5dp"
             android:text = "ID"
+            android:textColor="#cc9966"
             android:singleLine = "true" />
 
         <TextView
@@ -30,6 +31,7 @@
             android:ellipsize = "end"
             android:padding = "5dp"
             android:text = "Name"
+            android:textColor="#cc9966"
             android:singleLine = "true" />
 
 
@@ -37,25 +39,29 @@
             android:id = "@+id/editPassword"
             android:layout_width = "0dp"
             android:layout_height = "match_parent"
-            android:layout_weight = "2"
+            android:layout_weight = "1.5"
             android:background = "@drawable/cell_shape"
             android:ellipsize = "end"
             android:padding = "5dp"
             android:ems="10"
             android:hint="New Password"
-            android:textSize="10dp"/>
+            android:textColorHint="#d9b38c"
+            android:textSize="12dp"
+            android:textColor="#cc9966"/>
 
         <EditText
             android:id = "@+id/changeSalary"
             android:layout_width = "0dp"
             android:layout_height = "match_parent"
-            android:layout_weight = "1"
+            android:layout_weight = "1.5"
             android:background = "@drawable/cell_shape"
             android:ellipsize = "end"
             android:padding = "5dp"
             android:ems="10"
             android:hint="Hour Salary"
-            android:textSize="10dp"/>
+            android:textColorHint="#d9b38c"
+            android:textSize="12dp"
+            android:textColor="#cc9966"/>
 
     </LinearLayout>
 

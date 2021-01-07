@@ -49,8 +49,8 @@
                 android:text="LOGIN"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="#ebcfc4"
-                android:textColor="#fff"
+                android:backgroundTint="#e6ccb3"
+                android:textColor="#990000"
                 android:textSize="24sp" />
 
     <Button

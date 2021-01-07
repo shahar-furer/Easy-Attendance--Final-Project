@@ -15,8 +15,8 @@
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
-        android:textColor="#706897"
-        android:text="Attendence Report" />
+        android:textColor="#990000"
+        android:text="Month Attendence Report" />
 
     <TextView
         android:id="@+id/txtWorker"
@@ -26,7 +26,8 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="70dp"
         android:text="Select Employ:"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="#c2c2a3"/>
 
 
     <Spinner
@@ -50,7 +51,8 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="70dp"
         android:text="Select Year:"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="#c2c2a3"/>
 
     <Spinner
         android:id="@+id/spinnerYear"
@@ -73,7 +75,8 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="70dp"
         android:text="Select Month:"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="#c2c2a3"/>
 
     <Spinner
         android:id="@+id/spinnerMonth"
@@ -96,29 +99,28 @@
         android:layout_below="@id/spinnerMonth"
         android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
-        android:layout_marginleft="50dp"
         android:background="#D0E8F2"
         android:text="DOWNLOAD PDF"
         android:backgroundTint="#ebcfc4"
-        android:textColor="#fff"
+        android:textColor="#990000"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/openPdf"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/spinnerMonth"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="40dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="30dp"
         android:layout_toRightOf="@id/downloadPdf"
         android:background="#D0E8F2"
         android:backgroundTint="#ebcfc4"
         android:text="OPEN PDF"
-        android:textColor="#fff"
+        android:textColor="#990000"
         android:textSize="18sp" />
 
 

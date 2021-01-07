@@ -7,23 +7,22 @@
     android:background="#fff3e2"
     tools:context=".MonthlyReport">
 
-
-    <Button
-        android:id="@+id/logoutBtnHT"
+    <TextView
+        android:id="@+id/title_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#fff3e2"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        style="?android:attr/borderlessButtonStyle"/>
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:textColor="#706897"
+        android:text="Attendence Report" />
 
     <TextView
         android:id="@+id/txtWorker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logoutBtnHT"
+        android:layout_below="@id/title_month"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="70dp"
         android:text="Select Employ:"
@@ -34,7 +33,7 @@
         android:id="@+id/spinnerWorker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logoutBtnHT"
+        android:layout_below="@id/title_month"
         android:layout_alignBottom="@+id/txtWorker"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="70dp"
@@ -95,12 +94,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/spinnerMonth"
-        android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
+        android:layout_marginleft="50dp"
         android:background="#D0E8F2"
         android:text="DOWNLOAD PDF"
         android:backgroundTint="#ebcfc4"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/openPdf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerMonth"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="30dp"
+        android:layout_toRightOf="@id/downloadPdf"
+        android:background="#D0E8F2"
+        android:backgroundTint="#ebcfc4"
+        android:text="OPEN PDF"
         android:textColor="#fff"
         android:textSize="18sp" />
 

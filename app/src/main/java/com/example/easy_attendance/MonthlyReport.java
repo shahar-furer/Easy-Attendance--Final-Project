@@ -91,7 +91,7 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
         textWorker = (TextView) findViewById(R.id.txtWorker);
         createButton = findViewById(R.id.downloadPdf);
         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
-        scaledbmp = Bitmap.createScaledBitmap(bmp, 400, 400, false);
+        scaledbmp = Bitmap.createScaledBitmap(bmp, 250, 250, false);
         userDB = new FirebaseDBUser();
         tableDB = new FirebaseDBTable();
         userRef = userDB.getUserFromDB(uid);
@@ -153,7 +153,7 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
     public void createPDF(){
             createButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    if (selectedMonth !="" && selectedWorker !="" && selectedYear != ""){
+                    if (selectedMonth !="" && selectedWorker !="" && selectedYear != "" && isManager || selectedMonth !="" && selectedYear != "" && !isManager ){
                     dataObj = new Date();
                     PdfDocument pdfWorkHours = new PdfDocument();
                     Paint myPaint = new Paint();
@@ -163,21 +163,21 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
                     PdfDocument.Page myPage = pdfWorkHours.startPage(myPageInfo);
                     Canvas canvas = myPage.getCanvas();
 
-                    canvas.drawBitmap(scaledbmp, 0, 0, myPaint);
+                    canvas.drawBitmap(scaledbmp, 15, 15, myPaint);
                     titlePaint.setTextAlign(Paint.Align.CENTER);
                     titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                     titlePaint.setTextSize(70);
-                    canvas.drawText("Hours Report", pageWidth / 2, 270, titlePaint);
+                    canvas.drawText("Attendance Report", pageWidth / 2, 300, titlePaint);
                     //nees to add employeName
 
                     titlePaint.setTextAlign(Paint.Align.LEFT);
                     myPaint.setTextSize(50f);
                     myPaint.setColor(Color.BLACK);
-                    canvas.drawText("Employee Name: " + EmployeeName, 30, 310, myPaint);
-                    canvas.drawText("Employee ID: " + EmployeeId, 30, 310, myPaint);
+                    canvas.drawText("Employee Name: " + EmployeeName, 30, 500, myPaint);
+                    canvas.drawText("Employee ID: " + selectedWorker, 30, 600, myPaint);
 
                     dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-                    canvas.drawText("Date: " + dateFormat.format(dataObj), pageWidth-20, 640 , myPaint);
+                    canvas.drawText("Date: " + dateFormat.format(dataObj), 30, 720 , myPaint);
 
                     myPaint.setStyle(Paint.Style.STROKE);
                     myPaint.setStrokeWidth(2);
@@ -186,13 +186,13 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
                     myPaint.setTextAlign(Paint.Align.LEFT);
                     myPaint.setStyle(Paint.Style.FILL);
                     canvas.drawText("Date", 40, 830, myPaint);
-                    canvas.drawText("Entry Time", 300, 830, myPaint);
-                    canvas.drawText("Exit Time", 600, 830, myPaint);
-                    canvas.drawText("Total", 900, 830, myPaint);
+                    canvas.drawText("Entry Time", 340, 830, myPaint);
+                    canvas.drawText("Exit Time", 650, 830, myPaint);
+                    canvas.drawText("Total", 950, 830, myPaint);
 
-                    canvas.drawLine(280, 790, 280,840,myPaint);
-                    canvas.drawLine(580, 790, 580,840,myPaint);
-                    canvas.drawLine(880, 790, 880,840,myPaint);
+                    canvas.drawLine(330, 790, 330,840,myPaint);
+                    canvas.drawLine(630, 790, 630,840,myPaint);
+                    canvas.drawLine(930, 790, 930,840,myPaint);
 
 
                     //for loop of the days in the manth
@@ -200,10 +200,13 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
                     for (int i=0;i<daysTimes[0].length;i++){
                         String fullDate = daysTimes[i][0]+"/"+selectedMonth+"/"+selectedYear;
                         canvas.drawText(fullDate, 40, countY, myPaint);
-                        canvas.drawText(daysTimes[i][1], 300, countY, myPaint);
-                        canvas.drawText(daysTimes[i][2], 600, countY, myPaint);
-                        canvas.drawText(daysTimes[i][3], 900, countY, myPaint);
+                        canvas.drawText(daysTimes[i][1], 360, countY, myPaint);
+                        canvas.drawText(daysTimes[i][2], 650, countY, myPaint);
+                        canvas.drawText(daysTimes[i][3], 950, countY, myPaint);
                         canvas.drawLine(20, countY+50, pageWidth-20,countY+50,myPaint);
+                        canvas.drawLine(330, countY, 330,countY+100,myPaint);
+                        canvas.drawLine(630, countY, 630,countY+100,myPaint);
+                        canvas.drawLine(930, countY, 930,countY+100,myPaint);
                         countY = countY+100;
                     }
 
@@ -366,52 +369,54 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
                     titlePaint.setTextAlign(Paint.Align.CENTER);
                     titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                     titlePaint.setTextSize(70);
-                    canvas.drawText("Hours Report", pageWidth / 2, 270, titlePaint);
+                    canvas.drawText("Attendance Report", pageWidth / 2, 270, titlePaint);
                     //nees to add employeName
 
                     titlePaint.setTextAlign(Paint.Align.LEFT);
                     myPaint.setTextSize(50f);
                     myPaint.setColor(Color.BLACK);
                     canvas.drawText("Employee Name: " + EmployeeName, 30, 310, myPaint);
-                    canvas.drawText("Employee ID: " + EmployeeId, 30, 310, myPaint);
+                    canvas.drawText("Employee ID: " + EmployeeId, 30, 340, myPaint);
 
                     dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-                    canvas.drawText("Date: " + dateFormat.format(dataObj), pageWidth-20, 640 , myPaint);
+                    canvas.drawText("Date: " + dateFormat.format(dataObj), pageWidth-70, 450 , myPaint);
 
                     myPaint.setStyle(Paint.Style.STROKE);
                     myPaint.setStrokeWidth(2);
-                    canvas.drawRect(20, 780,pageWidth-20,860, myPaint);
+                    canvas.drawRect(20, 600,pageWidth-20,680, myPaint);
 
                     myPaint.setTextAlign(Paint.Align.LEFT);
                     myPaint.setStyle(Paint.Style.FILL);
-                    canvas.drawText("Date", 40, 830, myPaint);
-                    canvas.drawText("Entry Time", 300, 830, myPaint);
-                    canvas.drawText("Exit Time", 600, 830, myPaint);
-                    canvas.drawText("Total", 900, 830, myPaint);
+                    canvas.drawText("Date", 40, 650, myPaint);
+                    canvas.drawText("Entry Time", 350, 650, myPaint);
+                    canvas.drawText("Exit Time", 650, 650, myPaint);
+                    canvas.drawText("Total", 950, 650, myPaint);
 
-                    canvas.drawLine(280, 790, 280,840,myPaint);
-                    canvas.drawLine(580, 790, 580,840,myPaint);
-                    canvas.drawLine(880, 790, 880,840,myPaint);
+                    canvas.drawLine(280, 610, 280,660,myPaint);
+                    canvas.drawLine(580, 610, 580,660,myPaint);
+                    canvas.drawLine(880, 610, 880,660,myPaint);
 
 
 
                     //for loop of the days in the manth
-                    int countY = 950;
+                    int countY = 770;
                     for (int i=0;i<daysTimes.length;i++){
-                        Toast.makeText(getApplicationContext(), "The index: "+i ,Toast.LENGTH_SHORT).show();
                         String fullDate = daysTimes[i][0]+"/"+selectedMonth+"/"+selectedYear;
                         canvas.drawText(fullDate, 40, countY, myPaint);
                         canvas.drawText(daysTimes[i][1], 300, countY, myPaint);
                         canvas.drawText(daysTimes[i][2], 600, countY, myPaint);
                         canvas.drawText(daysTimes[i][3], 900, countY, myPaint);
                         canvas.drawLine(20, countY+50, pageWidth-20,countY+50,myPaint);
+                        canvas.drawLine(280, countY, 280,countY+50,myPaint);
+                        canvas.drawLine(580, countY, 580,countY+50,myPaint);
+                        canvas.drawLine(880, countY, 880,countY+50,myPaint);
                         countY = countY+100;
                     }
 
                     myPaint.setTextAlign(Paint.Align.RIGHT);
                     pdfWorkHours.finishPage(myPage);
                     //File file  = new File(Environment.getExternalStorageDirectory(), "/Monthly Report "+selectedWorker+".pdf");
-                    File outDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/test.pdf");
+                    File outDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),  "/Monthly Report "+selectedWorker+".pdf");
 
                     try {
                         pdfWorkHours.writeTo(new FileOutputStream(outDir));

@@ -76,7 +76,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/calculateButton"
         android:layout_marginTop="50dp"
-        app:cardBackgroundColor="#48DC"
+        app:cardBackgroundColor="#a3d2ca"
         app:cardCornerRadius="2dp"
         app:cardElevation="10dp"
         android:padding="12dp">

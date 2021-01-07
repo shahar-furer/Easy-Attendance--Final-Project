@@ -63,7 +63,7 @@ public class FirebaseDBTable extends FirebaseBaseModel {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild("entry")&&(!(snapshot.hasChild("exit")))) {
-                    myRef.child("Attendance").child(keyId).child(year).child(month).child(String.valueOf(prevDay)).child("exit").setValue("18:00:00"); //if we build the DB as hashMap, then will change the Entry/Exit
+                    myRef.child("Attendance").child(keyId).child(year).child(month).child(String.valueOf(prevDay)).child("exit").setValue("18:00:00"); //if we build the DB as hashMap, then will change the Entry/Exit987
                     Snackbar.make(ll, "Exit did not registered  yesterday , default exit registered.",
                             Snackbar.LENGTH_SHORT)
                             .show();

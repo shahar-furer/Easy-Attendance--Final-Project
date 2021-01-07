@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+
 
 public class CalculateSallary extends Menu implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnClickListener {
     private Button calc;
@@ -40,6 +42,7 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
     String orgKey;
     ArrayAdapter<String> yearAdapter;
     ArrayAdapter<String> monthAdapter;
+    DecimalFormat numberFormat = new DecimalFormat("#.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +214,8 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
                 totalMonthTxtview.append(" "+chosenMonth);
                 totalYearTxtview.append(" "+chosenYear);
                 totalHoursTxtview.append(" "+(int)(totalHours/60) +":"+ (int)totalHours%60);
-                totalPayTxtView.append(" "+ totalPay+" NIS");
+                totalPayTxtView.append(" "+ numberFormat.format(totalPay)+" NIS");
+
 
 
 

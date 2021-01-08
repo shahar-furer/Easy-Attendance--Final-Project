@@ -2,7 +2,10 @@ package com.example.easy_attendance;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -26,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
+import static com.example.easy_attendance.MyNotification.CHANNEL_Update_HourlyPay;
 
 
 public class DailyReport extends Menu implements View.OnClickListener {
@@ -35,11 +39,12 @@ public class DailyReport extends Menu implements View.OnClickListener {
     private TextView date;
     public Chronometer chrom;
     public static boolean isRunning;
+    DatabaseReference messageRef;
     FirebaseDBTable newAttendance = new FirebaseDBTable();
     FirebaseDBUser userDB =new FirebaseDBUser();
     FBAuth auth = new FBAuth();
     String uid= auth.getUserID();
-    String userName;
+    String userName ,ID;
     LinearLayout ll;
 
 
@@ -56,6 +61,7 @@ public class DailyReport extends Menu implements View.OnClickListener {
         helloUser= findViewById(R.id.textViewHello);
         date = findViewById(R.id.textViewDate);
          ll =findViewById(R.id.totalHours);
+        findUserName();
 
         start.setOnClickListener(this);
         end.setOnClickListener(this);
@@ -71,7 +77,7 @@ public class DailyReport extends Menu implements View.OnClickListener {
 //                chrom.setText(t);
 //            }
 //        });
-        findUserName();
+
     }
 
 
@@ -125,8 +131,10 @@ public class DailyReport extends Menu implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                userName =dataSnapshot.child("fName").getValue(String.class);
+               ID=dataSnapshot.child("ID").getValue(String.class);
                 helloUser.append("Hello "+userName);
                 date.append(new Date().toString());
+                checkMessege();
             }
 
             @Override
@@ -135,6 +143,39 @@ public class DailyReport extends Menu implements View.OnClickListener {
         });
 
 
+    }
+
+    private void checkMessege()
+    {
+        messageRef = userDB.getAllMessages();
+        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+              if(snapshot.hasChild(ID)) {
+                  String Title = snapshot.child(ID).child("Title").getValue().toString();
+                  String Text = snapshot.child(ID).child("Text").getValue().toString();
+                  userDB.deleteMessages(ID);
+                  sendNotification(Title ,Text);
+
+              }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public void sendNotification(String Title , String Text){
+        NotificationManagerCompat NM = NotificationManagerCompat.from(this);
+        Notification notification = new NotificationCompat.Builder(DailyReport.this, CHANNEL_Update_HourlyPay)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle(Title)
+                .setContentText(Text)
+                .build();
+        NM.notify(2,notification);
     }
 
 

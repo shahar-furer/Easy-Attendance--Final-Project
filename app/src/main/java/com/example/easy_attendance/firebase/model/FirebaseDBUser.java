@@ -50,6 +50,16 @@ public class FirebaseDBUser extends FirebaseBaseModel
         return myRef.getRef().child("Users");
     }
 
+    public DatabaseReference getAllMessages()
+    {
+        return myRef.getRef().child("Messages");
+    }
+
+    public void deleteMessages(String ID)
+    {
+        myRef.getRef().child("Messages").child(ID).removeValue();
+    }
+
 
 
 

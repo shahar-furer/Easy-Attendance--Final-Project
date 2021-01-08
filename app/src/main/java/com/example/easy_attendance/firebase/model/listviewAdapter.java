@@ -26,6 +26,7 @@ public class listviewAdapter extends BaseAdapter {
     String uid = mAuth.getUserID();
     FirebaseDBUser userDB = new FirebaseDBUser();
     DatabaseReference userRef = userDB.getUserFromDB(uid);
+    DatabaseReference messageRef=userDB.getAllMessages();
 
     public listviewAdapter(Activity activity, ArrayList<Model> workersList, LinearLayout lL) {
         super();
@@ -106,7 +107,7 @@ public class listviewAdapter extends BaseAdapter {
                 if (!hasFocus && holder.newPass.getText().length() !=0)
                 {
                     userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
-                    userRef.child("password").setValue(holder.newPass.getText().toString());
+                    userRef.child("password").setValue(holder.newPass.getText().toString().trim());
                     Snackbar.make(lL,workersList.get(position).getID()+  " Password Updated Successfully!", Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -139,7 +140,11 @@ public class listviewAdapter extends BaseAdapter {
                 if (!hasFocus && holder.newSalary.getText().length() !=0)
                 {
                     userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
-                    userRef.child("hourlyPay").setValue(holder.newSalary.getText().toString());
+                    userRef.child("hourlyPay").setValue(holder.newSalary.getText().toString().trim());
+                    messageRef.child(workersList.get(position).getID()).child("Title").setValue("Manager Updated Your Hourly Payment");
+                    messageRef.child(workersList.get(position).getID()).child("Text").setValue("Your Payment Now is " + holder.newSalary.getText().toString().trim()+ "NIS");
+
+
                     Snackbar.make(lL,workersList.get(position).getID()+  " Hour Salary Updated Successfully!", Snackbar.LENGTH_SHORT).show();
                 }
             }

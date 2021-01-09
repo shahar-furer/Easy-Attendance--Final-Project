@@ -123,7 +123,7 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
 
                 break;
             case R.id.spinnerMonthC:
-                chosenMonth = parent.getSelectedItem().toString();
+                wordsToNumbers(parent.getSelectedItem().toString());
                 Toast.makeText(this, "Option Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -149,7 +149,7 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    monthAdapter.add(snapshot.getKey().toString());
+                    monthAdapter.add(numbersToWords(snapshot.getKey().toString()));
                     monthAdapter.notifyDataSetChanged();
 
                 }
@@ -165,6 +165,39 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
 
     }
 
+
+
+    @Override
+    public void onClick(View v) {
+    totalHours=0;
+    totalPay=0;
+        tableRef=fdbt.getAttendanceFromDB(userID , chosenYear  , chosenMonth);
+        tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String total = snapshot.child("total").getValue(String.class);
+                    calcSallary(getTotalMinutes(total));
+
+                }
+                totalMonthTxtview.setText("Month: "+chosenMonth);
+                totalYearTxtview.setText("Year: "+chosenYear);
+                totalHoursTxtview.setText("Total Hours: "+(int)(totalHours/60) +":"+ (int)totalHours%60);
+                totalPayTxtView.setText("Total Pay: "+ numberFormat.format(totalPay)+" NIS");
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+
+    }
 
     private void calcSallary(int dailyTotalHours){
         Log.d("total mins " ," "+dailyTotalHours);
@@ -193,40 +226,105 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
         Log.d("daily pay " , " "+dailyPay+ " "+totalPay);
     }
 
-    public static int getTotalMinutes(String time) {
+    private int getTotalMinutes(String time) {
         String[] t = time.split(":");
         return Integer.valueOf(t[0]) * 60 + Integer.valueOf(t[1]);
 
     }
 
-    @Override
-    public void onClick(View v) {
+    private void wordsToNumbers(String monthToConvert){
+        switch (monthToConvert ){
 
-        tableRef=fdbt.getAttendanceFromDB(userID , chosenYear  , chosenMonth);
-        tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String total = snapshot.child("total").getValue(String.class);
-                    calcSallary(getTotalMinutes(total));
+            case "January" :
+                chosenMonth="1";
+                break;
+            case "February" :
+                chosenMonth="2";
+                break;
+            case "March" :
+                chosenMonth="3";
+                break;
+            case "April" :
+                chosenMonth="4";
+                break;
+            case "May" :
+                chosenMonth="5";
+                break;
+            case "June" :
+                chosenMonth="6";
+                break;
+            case "July" :
+                chosenMonth="7";
+                break;
+            case "August" :
+                chosenMonth="8";
+                break;
+            case "September" :
+                chosenMonth="9";
+                break;
+            case "October" :
+                chosenMonth="10";
+                break;
+            case "November" :
+                chosenMonth="11";
+                break;
+            case "December" :
+                chosenMonth="12";
+                break;
 
-                }
-                totalMonthTxtview.append(" "+chosenMonth);
-                totalYearTxtview.append(" "+chosenYear);
-                totalHoursTxtview.append(" "+(int)(totalHours/60) +":"+ (int)totalHours%60);
-                totalPayTxtView.append(" "+ numberFormat.format(totalPay)+" NIS");
 
+        }
 
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
 
     }
+
+    private String numbersToWords(String monthToConvert){
+        String monthInWords="";
+        switch (monthToConvert ){
+
+            case "01" :
+                monthInWords="January";
+                break;
+            case "02" :
+                monthInWords="February";
+                break;
+            case "03" :
+                monthInWords="March";
+                break;
+            case "04" :
+                monthInWords="April";
+                break;
+            case "05" :
+                monthInWords="May";
+                break;
+            case "06" :
+                monthInWords="June";
+                break;
+            case "07" :
+                monthInWords="July";
+                break;
+            case "08" :
+                monthInWords="August";
+                break;
+            case "09" :
+                monthInWords="September";
+                break;
+            case "10" :
+                monthInWords="October";
+                break;
+            case "11" :
+                monthInWords="November";
+                break;
+            case "12" :
+                monthInWords="December";
+                break;
+
+        }
+
+        return monthInWords;
+
+
+    }
+
+
 }

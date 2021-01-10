@@ -14,7 +14,7 @@
             android:id = "@+id/id"
             android:layout_width = "0dp"
             android:layout_height = "match_parent"
-            android:layout_weight = "1.2"
+            android:layout_weight = "1.3"
             android:background = "@drawable/cell_shape"
             android:ellipsize = "end"
             android:padding = "5dp"
@@ -26,7 +26,7 @@
             android:id = "@+id/name"
             android:layout_width = "0dp"
             android:layout_height = "match_parent"
-            android:layout_weight = "1.5"
+            android:layout_weight = "1.4"
             android:background = "@drawable/cell_shape"
             android:ellipsize = "end"
             android:padding = "5dp"
@@ -34,34 +34,45 @@
             android:textColor="#cc9966"
             android:singleLine = "true" />
 
-
-        <EditText
-            android:id = "@+id/editPassword"
+        <TextView
+            android:id = "@+id/salary"
             android:layout_width = "0dp"
             android:layout_height = "match_parent"
-            android:layout_weight = "1.5"
+            android:layout_weight = "0.8"
             android:background = "@drawable/cell_shape"
             android:ellipsize = "end"
             android:padding = "5dp"
-            android:ems="10"
-            android:hint="New Password"
-            android:textColorHint="#e6ccb3"
-            android:textSize="12dp"
-            android:textColor="#cc9966"/>
+            android:text = "salary"
+            android:textColor="#cc9966"
+            android:singleLine = "true" />
+
 
         <EditText
             android:id = "@+id/changeSalary"
             android:layout_width = "0dp"
             android:layout_height = "match_parent"
-            android:layout_weight = "1.5"
+            android:layout_weight = "0.9"
             android:background = "@drawable/cell_shape"
             android:ellipsize = "end"
             android:padding = "5dp"
             android:ems="10"
-            android:hint="Hour Salary"
+            android:hint="Update       Hour     Salary"
             android:textColorHint="#e6ccb3"
             android:textSize="12dp"
             android:textColor="#cc9966"/>
+
+        <Button
+            android:id = "@+id/editPassword"
+            android:layout_width = "0dp"
+            android:layout_height = "match_parent"
+            android:layout_weight = "1.4"
+            android:backgroundTint="#e6ccb3"
+            android:ellipsize = "end"
+            android:padding = "5dp"
+            android:ems="10"
+            android:text="Reset Password"
+            android:textColor="#990000"
+            android:textSize="12dp" />
 
     </LinearLayout>
 

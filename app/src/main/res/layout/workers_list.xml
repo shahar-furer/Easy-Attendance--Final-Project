@@ -46,19 +46,19 @@
         <TextView
             android:layout_width = "0dp"
             android:layout_height = "wrap_content"
-            android:layout_weight = "1.3"
-            android:gravity = "center"
+            android:layout_weight = "1.2"
+            android:gravity = ""
             android:padding = "5dp"
-            android:text = "Reset Password"
+            android:text = "  Salary"
             android:textColor = "#990000" />
 
         <TextView
             android:layout_width = "0dp"
             android:layout_height = "wrap_content"
-            android:layout_weight = "1.3"
+            android:layout_weight = "1.4"
             android:gravity = "center"
             android:padding = "5dp"
-            android:text = "Update Salary"
+            android:text = "Reset Pass"
             android:textColor = "#990000" />
 
     </LinearLayout>

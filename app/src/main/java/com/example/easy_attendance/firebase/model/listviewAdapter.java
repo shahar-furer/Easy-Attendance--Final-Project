@@ -2,6 +2,7 @@ package com.example.easy_attendance.firebase.model;
 
 import android.app.Activity;
 import android.view.KeyEvent;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,9 +55,10 @@ public class listviewAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView mID;
         TextView mName;
-
-        EditText newPass;
+        TextView mSalary;
         EditText newSalary;
+        Button newPass;
+
     }
 
     @Override
@@ -70,8 +72,9 @@ public class listviewAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.mID = (TextView) convertView.findViewById(R.id.id);
             holder.mName = (TextView) convertView.findViewById(R.id.name);
-            holder.newPass = (EditText) convertView.findViewById(R.id.editPassword);
+            holder.mSalary = (TextView) convertView.findViewById(R.id.salary);
             holder.newSalary = (EditText) convertView.findViewById(R.id.changeSalary);
+            holder.newPass = (Button) convertView.findViewById(R.id.editPassword);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -80,6 +83,7 @@ public class listviewAdapter extends BaseAdapter {
         Model item = workersList.get(position);
         holder.mID.setText(item.getID().toString());
         holder.mName.setText(item.getName().toString());
+        holder.mSalary.setText(String.valueOf(item.getSalary()).toString());
 
         holder.newPass.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -140,7 +144,7 @@ public class listviewAdapter extends BaseAdapter {
                 if (!hasFocus && holder.newSalary.getText().length() !=0)
                 {
                     userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
-                    userRef.child("hourlyPay").setValue(holder.newSalary.getText().toString().trim());
+                    userRef.child("hourlyPay").setValue(Double.parseDouble(holder.newSalary.getText().toString().trim()));
                     messageRef.child(workersList.get(position).getID()).child("Title").setValue("Manager Updated Your Hourly Payment");
                     messageRef.child(workersList.get(position).getID()).child("Text").setValue("Your Payment Now is " + holder.newSalary.getText().toString().trim()+ "NIS");
 

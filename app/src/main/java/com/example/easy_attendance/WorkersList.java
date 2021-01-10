@@ -118,8 +118,9 @@ public class WorkersList extends Menu implements View.OnClickListener{
                             Log.d("FBid", "onDataChange: "+ FBid);
                             String fName = snapshot.child("fName").getValue(String.class);
                             String lName = snapshot.child("lName").getValue(String.class);
+                            Double Salary = snapshot.child("hourlyPay").getValue(Double.class);
                             workerName = fName+ " "+ lName;
-                            Model model = new Model(FBid, idArray[i], workerName);
+                            Model model = new Model(FBid, idArray[i], workerName, Salary);
                             workersList.add(model);
                         }
                     }

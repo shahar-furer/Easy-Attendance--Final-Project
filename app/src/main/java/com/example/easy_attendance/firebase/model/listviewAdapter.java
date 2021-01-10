@@ -1,6 +1,7 @@
 package com.example.easy_attendance.firebase.model;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -105,16 +106,15 @@ public class listviewAdapter extends BaseAdapter {
             }
         });
 
-        holder.newPass.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        holder.newPass.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && holder.newPass.getText().length() !=0)
-                {
-                    userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
-                    userRef.child("password").setValue(holder.newPass.getText().toString().trim());
-                    Snackbar.make(lL,workersList.get(position).getID()+  " Password Updated Successfully!", Snackbar.LENGTH_SHORT).show();
-                }
+            public void onClick(View v) {
+                String email = workersList.get(position).getEmail();
+                Log.d("email" , email);
+                mAuth.resetPassword(email);
+                Snackbar.make(lL,  "Reset Password Mail Sent To "+workersList.get(position).getID() +" Successfully!", Snackbar.LENGTH_SHORT).show();
             }
+
         });
 
         holder.newSalary.setOnKeyListener(new View.OnKeyListener() {

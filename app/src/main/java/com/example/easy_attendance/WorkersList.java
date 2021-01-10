@@ -119,8 +119,9 @@ public class WorkersList extends Menu implements View.OnClickListener{
                             String fName = snapshot.child("fName").getValue(String.class);
                             String lName = snapshot.child("lName").getValue(String.class);
                             Double Salary = snapshot.child("hourlyPay").getValue(Double.class);
+                            String email =snapshot.child("email").getValue(String.class);
                             workerName = fName+ " "+ lName;
-                            Model model = new Model(FBid, idArray[i], workerName, Salary);
+                            Model model = new Model(FBid, idArray[i], workerName, Salary ,email);
                             workersList.add(model);
                         }
                     }

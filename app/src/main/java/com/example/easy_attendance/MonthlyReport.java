@@ -170,6 +170,7 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
             case R.id.spinnerWorker:
                 findWorkerId(parent.getSelectedItem().toString());
                 adapterYear.clear();
+                adapterMonth.clear();
                 updateYearSpinner();
                 break;
 

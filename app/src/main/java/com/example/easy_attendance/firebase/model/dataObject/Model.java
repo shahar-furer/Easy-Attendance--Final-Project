@@ -6,13 +6,15 @@ public class Model {
     private String ID;
     private String Name;
     private double Salary;
+    private String Email;
 
 
-    public Model(String FBid, String ID, String Name, double salary) {  //String uid, first
+    public Model(String FBid, String ID, String Name, double salary , String email) {  //String uid, first
         this.FBid = FBid;
         this.ID = ID;
         this.Name = Name;
         this.Salary = salary;
+        this.Email = email;
     }
     public double getSalary() { return Salary; }
 
@@ -23,5 +25,7 @@ public class Model {
     }
 
     public String getName() { return Name; }
+
+    public String getEmail() { return Email; }
 
 }

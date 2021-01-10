@@ -41,7 +41,7 @@ public class FBAuth {
                         Toast.makeText(activity.getApplicationContext(), "Success create new account .",
                                 Toast.LENGTH_SHORT).show();
                         String userID = getUserID();
-                        user.addUserToDB(userID, orgKey, ID, fName, lName, email , password, isManager);
+                        user.addUserToDB(userID, orgKey, ID, fName, lName, email ,isManager);
                         Intent intent = new Intent(activity, LoginPage.class);
                         activity.startActivity(intent);
                     } else {
@@ -96,5 +96,21 @@ public class FBAuth {
         return Name;
 
     }
+
+    public void resetPassword(String emailAddress){
+
+        mAuth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("TAG", "Email sent.");
+                        }
+                    }
+                });
+
+    }
+
+
 
 }

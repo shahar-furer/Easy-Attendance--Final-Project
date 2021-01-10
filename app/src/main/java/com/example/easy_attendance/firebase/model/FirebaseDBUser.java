@@ -12,14 +12,14 @@ import static android.content.ContentValues.TAG;
 public class FirebaseDBUser extends FirebaseBaseModel
 {
 
-    public void addUserToDB(String userID,String orgKey, String ID, String fName, String lName, String email, String password, boolean isManager)
+    public void addUserToDB(String userID,String orgKey, String ID, String fName, String lName, String email,  boolean isManager)
     {
-        writeNewUser(userID , orgKey, ID, fName, lName, email, password, isManager);
+        writeNewUser(userID , orgKey, ID, fName, lName, email, isManager);
     }
 
-    private void writeNewUser(String userID ,String orgKey, String ID, String fName, String lName, String email, String password, boolean isManager)
+    private void writeNewUser(String userID ,String orgKey, String ID, String fName, String lName, String email, boolean isManager)
     {
-        UserObj userRej = new UserObj(orgKey ,ID,  fName, lName ,email, password, isManager);
+        UserObj userRej = new UserObj(orgKey ,ID,  fName, lName ,email, isManager);
         myRef.child("Users").child(userID).setValue(userRej);
         writeUserToOrg(orgKey , ID ,fName ,lName,isManager);
     }

@@ -477,8 +477,10 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
 
     private void findWorkerId (String name) {
         for (String i : workersList.keySet()) {
-           if(workersList.get(i).equals(name));
-           selectedWorker = i;
+           if(workersList.get(i).equals(name)) {
+               selectedWorker = i;
+               EmployeeName =workersList.get(i);
+           }
         }
 
     }

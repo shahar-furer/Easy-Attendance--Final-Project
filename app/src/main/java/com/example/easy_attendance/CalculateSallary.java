@@ -31,7 +31,7 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
     private Spinner month , year;
     private TextView totalYearTxtview , totalMonthTxtview , totalHoursTxtview ,totalPayTxtView;
     private double hourlyPay ,totalPay,totalHours=0, basicHoursInMins = 9*60;
-    private String chosenMonth, chosenYear;
+    private String chosenMonth="", chosenYear="";
     FBAuth auth = new FBAuth();
     String uid= auth.getUserID();
     FirebaseDBUser fdbu  ;
@@ -124,7 +124,6 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
                 break;
             case R.id.spinnerMonthC:
                 wordsToNumbers(parent.getSelectedItem().toString());
-                Toast.makeText(this, "Option Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -169,33 +168,33 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
 
     @Override
     public void onClick(View v) {
-    totalHours=0;
-    totalPay=0;
-        tableRef=fdbt.getAttendanceFromDB(userID , chosenYear  , chosenMonth);
-        tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String total = snapshot.child("total").getValue(String.class);
-                    calcSallary(getTotalMinutes(total));
+        if(chosenYear != "" && chosenMonth != "") {
+            totalHours = 0;
+            totalPay = 0;
+            tableRef = fdbt.getAttendanceFromDB(userID, chosenYear, chosenMonth);
+            tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String total = snapshot.child("total").getValue(String.class);
+                        calcSallary(getTotalMinutes(total));
+
+                    }
+                    totalMonthTxtview.setText("Month: " + chosenMonth);
+                    totalYearTxtview.setText("Year: " + chosenYear);
+                    totalHoursTxtview.setText("Total Hours: " + (int) (totalHours / 60) + ":" + (int) totalHours % 60);
+                    totalPayTxtView.setText("Total Pay: " + numberFormat.format(totalPay) + " NIS");
+
 
                 }
-                totalMonthTxtview.setText("Month: "+chosenMonth);
-                totalYearTxtview.setText("Year: "+chosenYear);
-                totalHoursTxtview.setText("Total Hours: "+(int)(totalHours/60) +":"+ (int)totalHours%60);
-                totalPayTxtView.setText("Total Pay: "+ numberFormat.format(totalPay)+" NIS");
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
 
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
+            });
+        }
 
     }
 
@@ -236,31 +235,31 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
         switch (monthToConvert ){
 
             case "January" :
-                chosenMonth="1";
+                chosenMonth="01";
                 break;
             case "February" :
-                chosenMonth="2";
+                chosenMonth="02";
                 break;
             case "March" :
-                chosenMonth="3";
+                chosenMonth="03";
                 break;
             case "April" :
-                chosenMonth="4";
+                chosenMonth="04";
                 break;
             case "May" :
-                chosenMonth="5";
+                chosenMonth="05";
                 break;
             case "June" :
-                chosenMonth="6";
+                chosenMonth="06";
                 break;
             case "July" :
-                chosenMonth="7";
+                chosenMonth="07";
                 break;
             case "August" :
-                chosenMonth="8";
+                chosenMonth="08";
                 break;
             case "September" :
-                chosenMonth="9";
+                chosenMonth="09";
                 break;
             case "October" :
                 chosenMonth="10";
@@ -274,6 +273,8 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
 
 
         }
+
+        Log.d("chosen month: " ,chosenMonth );
 
 
     }

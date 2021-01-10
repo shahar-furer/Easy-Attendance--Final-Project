@@ -42,24 +42,20 @@ public class Menu extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_daily_report:
-                Toast.makeText(this, "Clicked Menu 1", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, DailyReport.class);
                 startActivity(intent);
                 break;
             case R.id.menu_monthly_report:
-                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, MonthlyReport.class);
                 startActivity(intent);
                 break;
 
             case R.id.menu_calc_sallary:
-                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, CalculateSallary.class);
                 startActivity(intent);
                 break;
 
             case R.id.menu_workers_list:
-                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, WorkersList.class);
                 startActivity(intent);
                 break;

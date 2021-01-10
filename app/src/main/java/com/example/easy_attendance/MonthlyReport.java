@@ -1,14 +1,7 @@
 package com.example.easy_attendance;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,16 +9,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.print.PrintDocumentAdapter;
-import android.print.PrintManager;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -34,36 +20,32 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.example.easy_attendance.firebase.model.FBAuth;
 import com.example.easy_attendance.firebase.model.FirebaseDBTable;
 import com.example.easy_attendance.firebase.model.FirebaseDBUser;
 import com.github.barteksc.pdfviewer.PDFView;
-import com.google.firebase.auth.ActionCodeInfo;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Document;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 
 
 public class MonthlyReport extends Menu implements OnItemSelectedListener {
     private Spinner spinnerYear, spinnerMonth, spinnerWorker;
     private TextView textWorker;
     String[][] daysTimes;
+    HashMap<String, String> workersList = new HashMap<String, String>();
     String selectedWorker = "";
     String selectedMonth = "";
     String selectedYear = "";
@@ -161,8 +143,7 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 if (snapshot.getKey() == "Manager")
                                     continue;
-                                adapterWorkers.add(snapshot.getKey().toString());
-                                adapterWorkers.notifyDataSetChanged();
+                                findWorkerName(snapshot.getKey().toString());
                             }
                         }
                         @Override
@@ -187,7 +168,7 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
         //selectedYear = years[position];
         switch (parent.getId()) {
             case R.id.spinnerWorker:
-                selectedWorker = parent.getSelectedItem().toString();
+                findWorkerId(parent.getSelectedItem().toString());
                 adapterYear.clear();
                 updateYearSpinner();
                 break;
@@ -199,7 +180,7 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
                 break;
 
             case R.id.spinnerMonth:
-                selectedMonth = parent.getSelectedItem().toString();
+                wordsToNumbers(parent.getSelectedItem().toString());
                 createArrayPdf();
                 break;
         }
@@ -235,7 +216,7 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    adapterMonth.add(snapshot.getKey().toString());
+                    adapterMonth.add(numbersToWords(snapshot.getKey().toString()));
                     adapterMonth.notifyDataSetChanged();
                 }
             }
@@ -365,6 +346,141 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
 
         File file = new File (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +"/Monthly Report " + selectedWorker + " " + selectedMonth + ".pdf");
         pdfview.fromFile(file).load();
+    }
+
+
+
+    private void wordsToNumbers(String monthToConvert){
+        switch (monthToConvert ){
+
+            case "January" :
+                selectedMonth="1";
+                break;
+            case "February" :
+                selectedMonth="2";
+                break;
+            case "March" :
+                selectedMonth="3";
+                break;
+            case "April" :
+                selectedMonth="4";
+                break;
+            case "May" :
+                selectedMonth="5";
+                break;
+            case "June" :
+                selectedMonth="6";
+                break;
+            case "July" :
+                selectedMonth="7";
+                break;
+            case "August" :
+                selectedMonth="8";
+                break;
+            case "September" :
+                selectedMonth="9";
+                break;
+            case "October" :
+                selectedMonth="10";
+                break;
+            case "November" :
+                selectedMonth="11";
+                break;
+            case "December" :
+                selectedMonth="12";
+                break;
+
+
+        }
+
+
+    }
+
+    private String numbersToWords(String monthToConvert){
+        String monthInWords="";
+        switch (monthToConvert ){
+
+            case "01" :
+                monthInWords="January";
+                break;
+            case "02" :
+                monthInWords="February";
+                break;
+            case "03" :
+                monthInWords="March";
+                break;
+            case "04" :
+                monthInWords="April";
+                break;
+            case "05" :
+                monthInWords="May";
+                break;
+            case "06" :
+                monthInWords="June";
+                break;
+            case "07" :
+                monthInWords="July";
+                break;
+            case "08" :
+                monthInWords="August";
+                break;
+            case "09" :
+                monthInWords="September";
+                break;
+            case "10" :
+                monthInWords="October";
+                break;
+            case "11" :
+                monthInWords="November";
+                break;
+            case "12" :
+                monthInWords="December";
+                break;
+
+        }
+
+        return monthInWords;
+
+
+    }
+
+
+    private void findWorkerName(String id) {
+        if(id == "Manager") return;
+        DatabaseReference users = userDB.getAllUsers();
+        users.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                    if(dataSnapshot.child("ID").getValue(String.class).equals(id)) {
+                        String fName=dataSnapshot.child("fName").getValue(String.class);
+                        String lName=dataSnapshot.child("lName").getValue(String.class);
+                        workersList.put(id , fName+" "+lName);
+                        adapterWorkers.add(fName+" "+lName);
+                        adapterWorkers.notifyDataSetChanged();
+                        break;
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
+    private void findWorkerId (String name) {
+        for (String i : workersList.keySet()) {
+           if(workersList.get(i).equals(name));
+           selectedWorker = i;
+        }
+
     }
 
     }

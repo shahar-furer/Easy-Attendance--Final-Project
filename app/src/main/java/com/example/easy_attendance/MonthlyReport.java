@@ -6,7 +6,9 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +25,7 @@ import android.print.PrintManager;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -34,6 +38,8 @@ import android.widget.Toast;
 import com.example.easy_attendance.firebase.model.FBAuth;
 import com.example.easy_attendance.firebase.model.FirebaseDBTable;
 import com.example.easy_attendance.firebase.model.FirebaseDBUser;
+import com.github.barteksc.pdfviewer.PDFView;
+import com.google.firebase.auth.ActionCodeInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,13 +51,16 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
-public class MonthlyReport extends Menu implements OnItemSelectedListener, View.OnClickListener {
+public class MonthlyReport extends Menu implements OnItemSelectedListener {
     private Spinner spinnerYear, spinnerMonth, spinnerWorker;
     private TextView textWorker;
     String[][] daysTimes;
@@ -79,6 +88,8 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
     ArrayAdapter<String> adapterYear;
     ArrayAdapter<String> adapterMonth;
     ArrayAdapter<String> adapterWorkers;
+    public static final int REQUEST_PERM_READ_STORAGE = 103;
+    PDFView pdfview;
 
 
     @Override
@@ -86,11 +97,32 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(MonthlyReport.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
         setContentView(R.layout.monthly_report);
+
         spinnerWorker = (Spinner) findViewById(R.id.spinnerWorker);
         spinnerYear = (Spinner) findViewById(R.id.spinnerYear);
         spinnerMonth = (Spinner) findViewById(R.id.spinnerMonth);
         textWorker = (TextView) findViewById(R.id.txtWorker);
-        createPdfButton = findViewById(R.id.downloadPdf);
+
+        createPdfButton = (Button)findViewById(R.id.downloadPdf);
+        createPdfButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                createPdf();
+            }
+        });
+
+        openPdfButton = (Button)findViewById(R.id.openPdf);
+        openPdfButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(ActivityCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(MonthlyReport.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERM_READ_STORAGE);
+                }
+                openPdf();
+            }
+        });
+
         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         scaledbmp = Bitmap.createScaledBitmap(bmp, 250, 250, false);
         userDB = new FirebaseDBUser();
@@ -110,13 +142,11 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
         adapterMonth.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMonth.setAdapter(adapterMonth);
         spinnerMonth.setOnItemSelectedListener(this);
-        createPdfButton.setOnClickListener(this);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 updateUserDetails(dataSnapshot);
-
                 if (!(isManager)) {
                     spinnerWorker.setVisibility(View.GONE);
                     textWorker.setVisibility(View.GONE);
@@ -135,7 +165,6 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
                                 adapterWorkers.notifyDataSetChanged();
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                         }
@@ -147,97 +176,7 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
             }
         });
     }
-    //createPDF();
 
-    /**public void createPDF(){
-        createPdfButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    if (selectedMonth !="" && selectedWorker !="" && selectedYear != "" && isManager || selectedMonth !="" && selectedYear != "" && !isManager ){
-                    dataObj = new Date();
-                    PdfDocument pdfWorkHours = new PdfDocument();
-                    Paint myPaint = new Paint();
-                    Paint titlePaint = new Paint();
-
-                    PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
-                    PdfDocument.Page myPage = pdfWorkHours.startPage(myPageInfo);
-                    Canvas canvas = myPage.getCanvas();
-
-                    canvas.drawBitmap(scaledbmp, 15, 15, myPaint);
-                    titlePaint.setTextAlign(Paint.Align.CENTER);
-                    titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                    titlePaint.setTextSize(70);
-                    canvas.drawText("Attendance Report", pageWidth / 2, 300, titlePaint);
-                    //nees to add employeName
-
-                    titlePaint.setTextAlign(Paint.Align.LEFT);
-                    myPaint.setTextSize(50f);
-                    myPaint.setColor(Color.BLACK);
-                    canvas.drawText("Employee Name: " + EmployeeName, 30, 500, myPaint);
-                    canvas.drawText("Employee: " + selectedWorker, 30, 590, myPaint);
-
-                    dateFormat = new SimpleDateFormat("dd/MM/yy");
-                    canvas.drawText("Date: " + dateFormat.format(dataObj), 30, 690 , myPaint);
-
-                    dateFormat = new SimpleDateFormat("HH:mm:ss");
-                    canvas.drawText("Time: " + dateFormat.format(dataObj), 30, pageWidth-20 , myPaint);
-
-                    myPaint.setStyle(Paint.Style.STROKE);
-                    myPaint.setStrokeWidth(2);
-                    canvas.drawRect(20, 680,pageWidth-20,800, myPaint);
-
-                    myPaint.setTextAlign(Paint.Align.LEFT);
-                    myPaint.setStyle(Paint.Style.FILL);
-                    canvas.drawText("Date", 40, 770, myPaint);
-                    canvas.drawText("Entry Time", 300, 770, myPaint);
-                    canvas.drawText("Exit Time", 650, 770, myPaint);
-                    canvas.drawText("Total", 1050, 770, myPaint);
-
-                    canvas.drawLine(280, 730, 280,780,myPaint);
-                    canvas.drawLine(630, 730, 630,780,myPaint);
-                    canvas.drawLine(850, 730, 850,780,myPaint);
-
-
-
-                    //for loop of the days in the manth
-                    int countY = 950;
-                    for (int i=0;i<daysTimes[0].length;i++){
-                        String fullDate = daysTimes[i][0]+"/"+selectedMonth+"/"+selectedYear;
-                        canvas.drawText(fullDate, 40, countY, myPaint);
-                        canvas.drawText(daysTimes[i][1], 300, countY, myPaint);
-                        canvas.drawText(daysTimes[i][2], 650, countY, myPaint);
-                        canvas.drawText(daysTimes[i][3], 1050, countY, myPaint);
-                        //canvas.drawLine(20, countY+50, pageWidth-20,countY+50,myPaint);
-                        //canvas.drawLine(330, countY, 330,countY+100,myPaint);
-                        //canvas.drawLine(630, countY, 630,countY+100,myPaint);
-                        //canvas.drawLine(930, countY, 930,countY+100,myPaint);
-                        countY = countY+100;
-                    }
-
-                    myPaint.setTextAlign(Paint.Align.RIGHT);
-                    pdfWorkHours.finishPage(myPage);
-                    String directory_path = Environment.getExternalStorageDirectory().getPath() +"/mypdf/";
-                    File file  = new File(directory_path);
-                        if (!file.exists()) {
-                            file.mkdirs();
-                        }
-                    String targetPdf = directory_path+ "/Monthly Report "+selectedWorker+".pdf";
-                    File filePath = new File(targetPdf);
-
-                    try {
-                        pdfWorkHours.writeTo(new FileOutputStream(filePath));
-                        Toast.makeText(getApplicationContext(), "The PFD saved: " ,Toast.LENGTH_SHORT).show();
-                    } catch (IOException e){
-                        Log.e("main", "error "+e.toString());
-                        Toast.makeText(getApplicationContext(), "Something wrong: " + e.toString(),  Toast.LENGTH_LONG).show();
-                    }
-                    pdfWorkHours.close();
-                }
-                else {
-                    //popup massage that selected not fill
-                }
-                }
-            });
-    }*/
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         //Toast.makeText(getApplicationContext(), "Selected Worker: "+workers[position] ,Toast.LENGTH_SHORT).show();
@@ -345,12 +284,9 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
     }
 
     //@Override
-    public void onClick(View v) {
-            createPdfButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    if (selectedMonth != "" && selectedWorker != "" && selectedYear != "") {
-
-                        dataObj = new Date();
+    public void createPdf() {
+        if (selectedMonth !="" && selectedWorker !="" && selectedYear != "" && isManager || selectedMonth !="" && selectedYear != "" && !isManager ){
+            dataObj = new Date();
                         PdfDocument pdfWorkHours = new PdfDocument();
                         Paint myPaint = new Paint();
                         Paint titlePaint = new Paint();
@@ -421,6 +357,14 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener, View.
                         //popup massage that selected not fill
                     }
                 }
-            });
+    public void openPdf() {
+        createPdf();
+
+        setContentView(R.layout.pdfview);
+        pdfview= findViewById(R.id.pdfView);
+
+        File file = new File (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +"/Monthly Report " + selectedWorker + " " + selectedMonth + ".pdf");
+        pdfview.fromFile(file).load();
     }
-}
+
+    }

@@ -14,10 +14,21 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light">
 
     </style>
+
     <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/title_color</item>
     </style>
+
+    <style name="Theme.EasyAttendance.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.EasyAttendance.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.EasyAttendance.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -9,7 +9,7 @@
     android:background="#fff3e2">
 
     <TextView
-        android:id="@+id/employees"
+        android:id="@+id/retroReport"
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:fontFamily="serif"
@@ -23,7 +23,7 @@
         android:id = "@+id/relativeLayout1"
         android:layout_width = "fill_parent"
         android:layout_height = "wrap_content"
-        android:layout_below="@+id/employees">
+        android:layout_below="@+id/retroReport">
 
         <TextView
             android:layout_width = "0dp"

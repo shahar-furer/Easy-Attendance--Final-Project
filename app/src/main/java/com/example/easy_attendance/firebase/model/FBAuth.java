@@ -33,27 +33,27 @@ public class FBAuth {
 
     public void registerUserToDB(String orgKey, String ID , String fName, String lName, String email, String password, Boolean isManager,  AppCompatActivity activity){
 
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        //TASK SUCCESSFUL
-                        Toast.makeText(activity.getApplicationContext(), "Success create new account .",
-                                Toast.LENGTH_SHORT).show();
-                        String userID = getUserID();
-                        user.addUserToDB(userID, orgKey, ID, fName, lName, email ,isManager);
-                        Intent intent = new Intent(activity, LoginPage.class);
-                        activity.startActivity(intent);
-                    } else {
-                        //TASK ERROR
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(activity.getApplicationContext(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    //TASK SUCCESSFUL
+                    Toast.makeText(activity.getApplicationContext(), "Success create new account .",
+                            Toast.LENGTH_SHORT).show();
+                    String userID = getUserID();
+                    user.addUserToDB(userID, orgKey, ID, fName, lName, email ,isManager);
+                    Intent intent = new Intent(activity, LoginPage.class);
+                    activity.startActivity(intent);
+                } else {
+                    //TASK ERROR
+                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                    Toast.makeText(activity.getApplicationContext(), "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
                 }
-            });
+            }
+        });
 
-        }
+    }
 
 
 
@@ -109,6 +109,10 @@ public class FBAuth {
                     }
                 });
 
+    }
+
+    public boolean isConnected(){
+        return mAuth.getCurrentUser() != null;
     }
 
 

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="12dp"
+    android:layout_height="match_parent"
+    android:background="#fff3e2"
+    android:orientation="vertical"
+    tools:context=".EditEmployeeDataActivity">
+
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/title_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:textColor="#990000"
+        android:text="Update Employee Data" />
+
+
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+
+    <LinearLayout
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Salary (Hourly):"
+            android:textSize="25sp"
+            />
+
+
+        <EditText
+            android:id="@+id/etSalary"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="80/hr"
+            android:textSize="25sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_height="match_parent"
+
+            />
+
+
+    </LinearLayout>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"/>
+
+
+    <LinearLayout
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Sick Days"
+            android:textSize="25sp"
+            />
+
+
+        <EditText
+            android:id="@+id/etSickDays"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="ex. 15"
+            android:textSize="25sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_height="match_parent"
+
+            />
+
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"/>
+
+
+    <LinearLayout
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Vacation Days:"
+            android:textSize="25sp"
+            />
+
+
+        <EditText
+            android:id="@+id/etVacationDays"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="ex. 30"
+            android:textSize="25sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_height="match_parent"
+
+            />
+
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:layout_gravity="center"
+        android:id="@+id/btnUpdateData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerMonth"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:background="#D0E8F2"
+        android:text="Update Data"
+        android:backgroundTint="#ebcfc4"
+        android:textColor="#990000"
+        android:textSize="18sp" />
+</LinearLayout>
+
+

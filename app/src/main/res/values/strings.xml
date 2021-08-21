@@ -30,6 +30,13 @@
         <item>2009</item>
     </string-array>
 
+    <string-array name="dayTypes">
+        <item>Work</item>
+        <item>Vacation</item>
+        <item>Sick Day</item>
+    </string-array>
+
+
 
     <string name="title_activity_try_page">MainActivity</string>
     <string name="title_home">Home</string>

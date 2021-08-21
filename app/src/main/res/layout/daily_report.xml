@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DailyReport"
+    android:gravity="center"
     android:background="#fff3e2">
+
+    <TextView
+        android:id="@+id/title_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="12dp"
+        android:textSize="30sp"
+        android:textColor="#990000"
+        android:text="Daily Attendence Report" />
 
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="12dp"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textViewHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="48dp"
         android:textSize="24sp" />
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
+        android:layout_width="330dp"
         android:id="@+id/cardChromoter"
         android:layout_height="50dp"
         android:layout_below="@+id/textViewHello"
@@ -39,84 +47,73 @@
         app:cardElevation="10dp"
         android:padding="12dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <LinearLayout
 
+            android:layout_width="match_parent"
+            android:padding="8dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_gravity="center"
+                android:text="TIME IN WORK: "
+                android:textSize="26sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <Chronometer
+                android:layout_gravity="center"
                 android:id="@+id/chronometerWatch"
                 android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:textAlignment="center"
                 android:textColor="#990000"
-                android:textSize="40dp"/>
+                android:textSize="28sp"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
-        android:id="@+id/cardStart"
-        android:layout_height="50dp"
-        android:layout_below="@+id/cardChromoter"
-        android:layout_centerHorizontal="true"
+
+
+
+    <Button
+        android:layout_height="60dp"
+        android:width="300dp"
+        android:id="@+id/startBtn"
         android:layout_marginTop="50dp"
-        app:cardBackgroundColor="#e6ccb3"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="10dp"
-        android:padding="12dp">
+        android:layout_width="wrap_content"
+        android:text="START"
+        android:textSize="24sp"
+        />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/startBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="START"
-                android:backgroundTint="#e6ccb3"
-                android:textColor="#990000"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
+    <Button
+        android:layout_marginTop="24dp"
+        android:id="@+id/endBtn"
         android:layout_width="300dp"
-        android:id="@+id/cardEnd"
-        android:layout_height="50dp"
-        android:layout_below="@+id/cardStart"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        app:cardBackgroundColor="#e6ccb3"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="10dp"
-        android:padding="12dp">
+        android:layout_height="60dp"
+        android:text="END"
+        android:enabled="false"
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:textSize="24sp" />
 
-            <Button
-                android:id="@+id/endBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="END"
-                android:textColor="#990000"
-                android:backgroundTint="#e6ccb3"
-                android:textSize="24sp" />
+    <Button
+        android:layout_marginTop="24dp"
+        android:id="@+id/btnReportSick"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="Report As Sick Day"
+        android:textColor="#e6ccb3"
+        android:backgroundTint="#990000"
+        android:textSize="20sp" />
 
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
+    <Button
+        android:layout_marginTop="24dp"
+        android:id="@+id/btnReportVaction"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="Report As Vacation"
+        android:textColor="#e6ccb3"
+        android:backgroundTint="#990000"
+        android:textSize="20sp" />
 
 
 
@@ -127,4 +124,4 @@
         android:orientation="vertical">
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

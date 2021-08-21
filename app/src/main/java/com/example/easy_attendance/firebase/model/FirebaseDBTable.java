@@ -78,13 +78,13 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         });
 
         myRef.child("Attendance").child(keyId).child(year).child(month).addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot snapshot) {
-            if (!(snapshot.hasChild(day))) {
-            startChrom();
-            writeNewAttendance( year,month, day ,hour);
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!(snapshot.hasChild(day))) {
+                    startChrom();
+                    writeNewAttendance( year,month, day ,hour);
+                }
             }
-        }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -100,6 +100,41 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("00:00");
     }
 
+    public void writeAttendance(String year ,String month,String day,String entryHour, String exitHour)
+    {
+        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("entry").setValue(entryHour); //if we build the DB as hashMap, then will change the Entry/Exit
+        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("exit").setValue(exitHour);
+
+        int t1 = getTotalMinutes(entryHour);
+        int t2 = getTotalMinutes(exitHour);
+        int result = Math.abs(t1 - t2);
+        String total = getResult(result);
+
+        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue(total);
+    }
+
+    public void writeSpecialDayAttendance(String year ,String month,String day, int dayType){
+        String dayTypeStr = "";
+        switch (dayType){
+            case 1:
+                dayTypeStr = "vacation";
+                break;
+
+            case 2:
+                dayTypeStr = "sick";
+                break;
+        }
+        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("type").setValue(dayTypeStr);
+    }
+
+    public void reportAs(Date d, String dayType){
+        String year = yearFormat.format(d);
+        String month = monthFormat.format(d);
+        String day = dayFormat.format(d);
+
+        myRef.child("Attendance").child(keyId).child(year).child(month).child(day).setValue(dayType);
+
+    }
 
     public void addExitToAttendance(Date d, LinearLayout ll)
     {
@@ -122,8 +157,8 @@ public class FirebaseDBTable extends FirebaseBaseModel {
                         String total = getResult(result);
                         myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue(total);
                         Snackbar.make(ll, "Your total hours is " +total,
-                        Snackbar.LENGTH_SHORT)
-                        .show();
+                                Snackbar.LENGTH_SHORT)
+                                .show();
 
                     }
                 }
@@ -144,8 +179,8 @@ public class FirebaseDBTable extends FirebaseBaseModel {
                                     String total = getResult(result);
                                     myRef.child("Attendance").child(keyId).child(year).child(month).child(Integer.toString(prevDay)).child("total").setValue(total); //if we build the DB as hashMap, then will change the Entry/Exit
                                     Snackbar.make(ll, "Your total hours is " +total,
-                                    Snackbar.LENGTH_SHORT)
-                                    .show();
+                                            Snackbar.LENGTH_SHORT)
+                                            .show();
 
                                 }
                             }
@@ -154,8 +189,8 @@ public class FirebaseDBTable extends FirebaseBaseModel {
                                 myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("exit").setValue(hour);
                                 myRef.child("Attendance").child(keyId).child(year).child(month).child(day).child("total").setValue("00:00");//if we build the DB as hashMap, then will change the Entry/Exit
                                 Snackbar.make(ll, "Your total hours is 0 ,no entry was registered" ,
-                                Snackbar.LENGTH_SHORT)
-                                .show();
+                                        Snackbar.LENGTH_SHORT)
+                                        .show();
 
                             }
                         }
@@ -176,12 +211,19 @@ public class FirebaseDBTable extends FirebaseBaseModel {
 
     }
 
-   public DatabaseReference getAttendanceFromDB (String UserID,String year,String month) //not finished. need loop for printing all the dates
-   {
-       return myRef.getRef().child("Attendance").child(UserID).child(year).child(month);
-   }
+    //TODO: not finished. need loop for printing all the dates
+    public DatabaseReference getAttendanceFromDB (String UserID,String year,String month)
+    {
+        return myRef.getRef().child("Attendance").child(UserID).child(year).child(month);
+    }
 
-    public DatabaseReference getUserAttendanceFromDB (String UserID) //not finished. need loop for printing all the dates
+    public DatabaseReference getAttendanceFromDBInDay (String UserID,String year,String month, String day)
+    {
+        return myRef.getRef().child("Attendance").child(UserID).child(year).child(month).child(day);
+    }
+
+    //TODO: not finished. need loop for printing all the dates
+    public DatabaseReference getUserAttendanceFromDB (String UserID)
     {
         return myRef.getRef().child("Attendance").child(UserID);
     }
@@ -212,4 +254,8 @@ public class FirebaseDBTable extends FirebaseBaseModel {
         int hours = ((total - minutes) / 60) % 24;
         return String.format("%02d:%02d", hours, minutes);
     }
+
+
+
+
 }

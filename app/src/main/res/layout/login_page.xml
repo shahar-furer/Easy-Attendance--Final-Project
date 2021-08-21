@@ -40,18 +40,18 @@
         android:inputType="textPassword"
         android:rotationX="2" />
 
-            <Button
-                android:id="@+id/loginBtn"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_below="@+id/editTextTextPassword"
-                android:layout_centerInParent="true"
-                android:text="LOGIN"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="#e6ccb3"
-                android:textColor="#990000"
-                android:textSize="24sp" />
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/editTextTextPassword"
+        android:layout_centerInParent="true"
+        android:text="LOGIN"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="#e6ccb3"
+        android:textColor="#990000"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/registerBtn"

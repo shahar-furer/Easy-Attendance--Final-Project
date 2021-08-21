@@ -6,29 +6,29 @@ import java.util.Date;
 
 public class TableObj {
 
-        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
-        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
-        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
-        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
-        Date entryDate;
-        Date exitDate;
-        String isEntryExit; // entry or exit
+    SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+    SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+    SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+    SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+    Date entryDate;
+    Date exitDate;
+    String isEntryExit; // entry or exit
 
 
-// we need to add option for only Exit, only Entry, and both together
-        public TableObj(Date d, String s) //now we have option only for entry and at the end of the day-Exit
-        {
-            this.isEntryExit = s;
-            if (isEntryExit == "entry")
-                this.entryDate = d;
-            else
-                this.exitDate = d;
+    // we need to add option for only Exit, only Entry, and both together
+    public TableObj(Date d, String s) //now we have option only for entry and at the end of the day-Exit
+    {
+        this.isEntryExit = s;
+        if (isEntryExit == "entry")
+            this.entryDate = d;
+        else
+            this.exitDate = d;
 
-        }
+    }
 
 
 
-        // param entry is current time on pressing start button
+    // param entry is current time on pressing start button
 
 
     public void setEntryDate(Date entryD) { this.entryDate = entryD; }

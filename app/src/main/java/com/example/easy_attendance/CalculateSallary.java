@@ -1,20 +1,16 @@
 package com.example.easy_attendance;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.easy_attendance.R;
 import com.example.easy_attendance.firebase.model.FBAuth;
 import com.example.easy_attendance.firebase.model.FirebaseDBTable;
 import com.example.easy_attendance.firebase.model.FirebaseDBUser;
@@ -27,7 +23,7 @@ import java.text.DecimalFormat;
 
 
 public class CalculateSallary extends Menu implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnClickListener {
-    private Button calc;
+    private Button calculateBtn;
     private Spinner month , year;
     private TextView totalYearTxtview , totalMonthTxtview , totalHoursTxtview ,totalPayTxtView;
     private double hourlyPay ,totalPay,totalHours=0, basicHoursInMins = 9*60;
@@ -50,7 +46,7 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
         setContentView(R.layout.calculate_sallary);
         month = (Spinner) findViewById(R.id.spinnerMonthC);
         year = (Spinner)findViewById(R.id.spinnerYearC);
-        calc= findViewById(R.id.calculateButton);
+        calculateBtn = findViewById(R.id.calculateButton);
         totalMonthTxtview = findViewById(R.id.txtTotalMonth);
         totalYearTxtview = findViewById(R.id.txtTotalYear);
         totalHoursTxtview = findViewById(R.id.txtTotalHours);
@@ -66,14 +62,14 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         month.setAdapter(monthAdapter);
         month.setOnItemSelectedListener(this);
-        calc.setOnClickListener(this);
+        calculateBtn.setOnClickListener(this);
 
 
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-            updateUserDetails(dataSnapshot);
+                updateUserDetails(dataSnapshot);
             }
 
             @Override
@@ -117,7 +113,7 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()){
             case R.id.spinnerYearC:
-               chosenYear = parent.getSelectedItem().toString();
+                chosenYear = parent.getSelectedItem().toString();
                 monthAdapter.clear();
                 updateMonths(parent.getSelectedItem().toString());
 
@@ -176,15 +172,18 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if(!snapshot.hasChild("total")){
+                            totalPay += hourlyPay * 9;      // add the daily pay
+                        }
                         String total = snapshot.child("total").getValue(String.class);
                         calcSallary(getTotalMinutes(total));
 
                     }
-                    totalMonthTxtview.setText("Month: " + chosenMonth);
-                    totalYearTxtview.setText("Year: " + chosenYear);
-                    totalHoursTxtview.setText("Total Hours: " + (int) (totalHours / 60) + ":" + (int) totalHours % 60);
-                    totalPayTxtView.setText("Total Pay: " + numberFormat.format(totalPay) + " NIS");
-
+                    totalMonthTxtview.setText(chosenMonth);
+                    totalYearTxtview.setText(chosenYear);
+                    totalHoursTxtview.setText((int) (totalHours / 60) + ":" + (int) totalHours % 60);
+                    totalPayTxtView.setText("Total Pay: "+ numberFormat.format(totalPay) + " NIS");
+                    totalPayTxtView.setVisibility(View.VISIBLE);
 
                 }
 

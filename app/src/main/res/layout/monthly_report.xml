@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
         android:textColor="#990000"
@@ -21,7 +22,7 @@
 
 
     <TextView
-        android:id="@+id/txtWorker"
+        android:id="@+id/txtDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_month"
@@ -29,7 +30,7 @@
         android:layout_marginTop="70dp"
         android:text="Select Employ:"
         android:textSize="25dp"
-        android:textColor="#c2c2a3"/>
+        />
 
 
     <Spinner
@@ -37,24 +38,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_month"
-        android:layout_alignBottom="@+id/txtWorker"
+        android:layout_alignBottom="@+id/txtDay"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginLeft="84dp"
+        android:layout_marginStart="24dp"
+
         android:layout_marginTop="64dp"
         android:layout_marginBottom="-14dp"
-        android:layout_toRightOf="@+id/txtWorker" />
+        android:layout_toRightOf="@+id/txtDay" />
 
     <TextView
         android:id="@+id/txtYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtWorker"
+        android:layout_below="@id/txtDay"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="70dp"
         android:text="Select Year:"
         android:textSize="25dp"
-        android:textColor="#c2c2a3"/>
+        />
 
     <Spinner
         android:id="@+id/spinnerYear"
@@ -63,7 +64,7 @@
         android:layout_below="@id/spinnerWorker"
         android:layout_alignBottom="@+id/txtYear"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="48dp"
         android:layout_marginLeft="84dp"
         android:layout_marginTop="64dp"
         android:layout_marginBottom="-14dp"
@@ -78,7 +79,7 @@
         android:layout_marginTop="70dp"
         android:text="Select Month:"
         android:textSize="25dp"
-        android:textColor="#c2c2a3"/>
+        />
 
     <Spinner
         android:id="@+id/spinnerMonth"
@@ -87,7 +88,7 @@
         android:layout_below="@id/spinnerYear"
         android:layout_alignBottom="@+id/txtMonth"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="24dp"
         android:layout_marginLeft="84dp"
         android:layout_marginTop="64dp"
         android:layout_marginBottom="-14dp"

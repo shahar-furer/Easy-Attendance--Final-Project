@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="24dp"
         android:text="Select Year:"
         android:textSize="25dp" />
 
@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="70dp"
         android:layout_marginLeft="84dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="-14dp"
         android:layout_toRightOf="@+id/txtYearC" />
 
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="24dp"
         android:layout_below="@id/txtYearC"
         android:text="Select Month:"
         android:textSize="25dp" />
@@ -91,54 +91,107 @@
                 android:layout_width="133dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="34dp"
+                android:layout_marginTop="24dp"
                 android:text="Overall:"
                 android:textSize="25dp" />
 
 
 
+
+
+            <LinearLayout
+                android:id="@+id/layoutTotalYear"
+                android:layout_below="@id/txtTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="24dp"
+
+                    android:text="Year:"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtTotalYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+
+                    android:text=""
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layoutTotalMonth"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/layoutTotalYear"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Month:"
+                    android:textStyle="bold"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/txtTotalMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutTotalHours"
+                android:layout_below="@id/layoutTotalMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="120dp"                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Total Hours:"
+                    android:textStyle="bold"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/txtTotalHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text=""
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+
+
+
+
+
             <TextView
-                android:id="@+id/txtTotalYear"
+                android:id="@+id/txtTotalPay"
+                android:background="#990000"
+                android:visibility="invisible"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="34dp"
-                android:layout_below="@id/txtTotal"
-                android:text="Year:"
+                android:padding="4dp"
+                android:layout_marginTop="24dp"
+                android:layout_below="@id/layoutTotalHours"
+                android:text="Total Pay:"
+                android:textColor="#e6ccb3"
+                android:textStyle="bold"
                 android:textSize="20dp" />
-
-
-
-
-    <TextView
-        android:id="@+id/txtTotalMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="34dp"
-        android:layout_below="@id/txtTotalYear"
-        android:text="Month:"
-        android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/txtTotalHours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="34dp"
-        android:layout_below="@id/txtTotalMonth"
-        android:text="Total Hours:"
-        android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/txtTotalPay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="34dp"
-        android:layout_below="@id/txtTotalHours"
-        android:text="Total Pay:"
-        android:textSize="20dp" />
 
         </RelativeLayout>
 

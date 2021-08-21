@@ -1,15 +1,15 @@
 package com.example.easy_attendance.firebase.model;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.easy_attendance.R;
@@ -54,11 +54,13 @@ public class listviewAdapter extends BaseAdapter {
 
 
     private class ViewHolder {
+
         TextView mID;
         TextView mName;
         TextView mSalary;
-        EditText newSalary;
+        //        EditText newSalary;
         Button newPass;
+        Button updateDataBtn;
 
     }
 
@@ -74,17 +76,18 @@ public class listviewAdapter extends BaseAdapter {
             holder.mID = (TextView) convertView.findViewById(R.id.id);
             holder.mName = (TextView) convertView.findViewById(R.id.name);
             holder.mSalary = (TextView) convertView.findViewById(R.id.salary);
-            holder.newSalary = (EditText) convertView.findViewById(R.id.changeSalary);
-            holder.newPass = (Button) convertView.findViewById(R.id.editPassword);
+            //   holder.newSalary = (EditText) convertView.findViewById(R.id.changeSalary);
+            holder.newPass = (Button) convertView.findViewById(R.id.btnEditPassword);
+            holder.updateDataBtn = convertView.findViewById(R.id.btnUpdateData);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         Model item = workersList.get(position);
-        holder.mID.setText(item.getID().toString());
-        holder.mName.setText(item.getName().toString());
-        holder.mSalary.setText(String.valueOf(item.getSalary()).toString());
+        holder.mID.setText(item.getID());
+        holder.mName.setText(item.getName());
+        holder.mSalary.setText(item.getSalary()+ "/hr");
 
         holder.newPass.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -117,42 +120,55 @@ public class listviewAdapter extends BaseAdapter {
 
         });
 
-        holder.newSalary.setOnKeyListener(new View.OnKeyListener() {
-
+        holder.updateDataBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN)
-                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on Enter key press
-                    holder.newSalary.clearFocus();
-                 /*   if (holder.newSalary.getText() !=null)
-                    {
-                        userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
-                        userRef.child("hourlyPay").setValue(holder.newSalary.getText().toString());
-                        Snackbar.make(lL,workersList.get(position).getID()+  " Hour Salary Updated Successfully!", Snackbar.LENGTH_SHORT).show();
-                    } */
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+
+                Intent intent = new Intent(activity, EditEmployeeDataActivity.class);
+
+                intent.putExtra("userFbUid", item.getFBid());
+                intent.putExtra("userId", item.getID());
+
+                activity.startActivity(intent);
             }
         });
 
-        holder.newSalary.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && holder.newSalary.getText().length() !=0)
-                {
-                    userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
-                    userRef.child("hourlyPay").setValue(Double.parseDouble(holder.newSalary.getText().toString().trim()));
-                    messageRef.child(workersList.get(position).getID()).child("Title").setValue("Manager Updated Your Hourly Payment");
-                    messageRef.child(workersList.get(position).getID()).child("Text").setValue("Your Payment Now is " + holder.newSalary.getText().toString().trim()+ "NIS");
+//        holder.newSalary.setOnKeyListener(new View.OnKeyListener() {
+//
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                // If the event is a key-down event on the "enter" button
+//                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+//                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+//                    // Perform action on Enter key press
+//                    holder.newSalary.clearFocus();
+//                 /*   if (holder.newSalary.getText() !=null)
+//                    {
+//                        userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
+//                        userRef.child("hourlyPay").setValue(holder.newSalary.getText().toString());
+//                        Snackbar.make(lL,workersList.get(position).getID()+  " Hour Salary Updated Successfully!", Snackbar.LENGTH_SHORT).show();
+//                    } */
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
-
-                    Snackbar.make(lL,workersList.get(position).getID()+  " Hour Salary Updated Successfully!", Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        holder.newSalary.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (!hasFocus && holder.newSalary.getText().length() !=0)
+//                {
+//                    userRef = userDB.getUserFromDB(workersList.get(position).getFBid());
+//                    userRef.child("hourlyPay").setValue(Double.parseDouble(holder.newSalary.getText().toString().trim()));
+//                    messageRef.child(workersList.get(position).getID()).child("Title").setValue("Manager Updated Your Hourly Payment");
+//                    messageRef.child(workersList.get(position).getID()).child("Text").setValue("Your Payment Now is " + holder.newSalary.getText().toString().trim()+ "NIS");
+//
+//
+//                    Snackbar.make(lL,workersList.get(position).getID()+  " Hour Salary Updated Successfully!", Snackbar.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
 
 

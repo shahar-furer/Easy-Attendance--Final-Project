@@ -16,7 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-public class EditEmployeeDataActivity extends Menu {
+public class EditEmployeeDataActivity extends AppCompatActivity {
 
     private EditText etSalary;
     private EditText etSickDays;

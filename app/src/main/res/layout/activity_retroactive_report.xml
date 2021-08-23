@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#fff3e2"
     android:orientation="vertical"
-    tools:context="com.example.easy_attendance.RetroactiveReportActivity">
+    tools:context="com.example.RetroactiveReportActivity">
 
     <TextView
         android:layout_gravity="center"
@@ -49,7 +49,7 @@
             android:paddingEnd="8dp"
             android:layout_height="match_parent"
 
-        />
+            />
 
 
     </LinearLayout>
@@ -76,7 +76,7 @@
             android:id="@+id/spinnerDayType"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-             />
+            />
 
     </LinearLayout>
 

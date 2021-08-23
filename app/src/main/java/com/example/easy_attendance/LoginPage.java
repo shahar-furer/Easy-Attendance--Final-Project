@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.easy_attendance.firebase.model.FBAuth;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginPage extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,6 +24,13 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
+        if(auth.isConnected()){
+            Intent loginIntent = new Intent(this, DailyReport.class);
+            loginIntent.putExtra("userId" , userID);
+            startActivity(loginIntent);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
         register = findViewById(R.id.registerBtn);
@@ -36,7 +44,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
 
 
 
-        @Override
+    @Override
     public void onClick(View v) {
         if (v == login) {
             Log.d("login btn was pressed" , "lets see if it work");

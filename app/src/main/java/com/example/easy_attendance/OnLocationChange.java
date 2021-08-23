@@ -25,3 +25,5 @@ public class OnLocationChange {
         void onChange(boolean boo);
     }
 }
+
+

@@ -26,6 +26,8 @@ import androidx.core.app.ActivityCompat;
 import com.example.easy_attendance.firebase.model.FBAuth;
 import com.example.easy_attendance.firebase.model.FirebaseDBTable;
 import com.example.easy_attendance.firebase.model.FirebaseDBUser;
+import com.example.easy_attendance.firebase.model.dataObject.Model;
+import com.example.easy_attendance.firebase.model.dataObject.UserObj;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,13 +41,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class MonthlyReport extends Menu implements OnItemSelectedListener {
     private Spinner spinnerYear, spinnerMonth, spinnerWorker;
     private TextView textWorker;
     String[][] daysTimes;
-    HashMap<String, String> workersList = new HashMap<String, String>();
+    HashMap<String, UserObj> workersList = new HashMap<>();
     String selectedWorker = "";
     String selectedMonth = "";
     String selectedYear = "";
@@ -58,10 +61,10 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
     DatabaseReference tableRef;
     Boolean isManager;
     String keyId;
+    String EmployeeName;      // ADDED
     String orgKey;
     Bitmap bmp, scaledbmp;
     int pageWidth = 1200;
-    String EmployeeName = "";
     String EmployeeId = "";
     Button createPdfButton;
     Button openPdfButton;
@@ -73,6 +76,8 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
     public static final int REQUEST_PERM_READ_STORAGE = 103;
     PDFView pdfview;
 
+    private int sickDaysLeft;
+    private int vacationDaysLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,22 +88,22 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
         spinnerWorker = (Spinner) findViewById(R.id.spinnerWorker);
         spinnerYear = (Spinner) findViewById(R.id.spinnerYear);
         spinnerMonth = (Spinner) findViewById(R.id.spinnerMonth);
-        textWorker = (TextView) findViewById(R.id.txtWorker);
+        textWorker = (TextView) findViewById(R.id.txtDay);
 
-        createPdfButton = (Button)findViewById(R.id.downloadPdf);
-        createPdfButton.setOnClickListener(new View.OnClickListener(){
+        createPdfButton = (Button) findViewById(R.id.downloadPdf);
+        createPdfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createPdf();
             }
         });
 
-        openPdfButton = (Button)findViewById(R.id.openPdf);
-        openPdfButton.setOnClickListener(new View.OnClickListener(){
+        openPdfButton = (Button) findViewById(R.id.openPdf);
+        openPdfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ActivityCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MonthlyReport.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERM_READ_STORAGE);
                 }
                 openPdf();
@@ -146,12 +151,14 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
                                 findWorkerName(snapshot.getKey().toString());
                             }
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                         }
                     });
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -186,22 +193,37 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
                 break;
         }
     }
+
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO - Custom Code
     }
-    private void updateUserDetails(DataSnapshot dataSnapshot){
+
+    private void updateUserDetails(DataSnapshot dataSnapshot) {
         isManager = dataSnapshot.child("isManager").getValue(Boolean.class);
         keyId = dataSnapshot.child("ID").getValue(String.class);
+        EmployeeName = dataSnapshot.child("fName").getValue(String.class) + " " + dataSnapshot.child("lName").getValue(String.class);
         orgKey = dataSnapshot.child("orgKey").getValue(String.class);
+
+        sickDaysLeft = !dataSnapshot.hasChild("SickDays") ? 0 : dataSnapshot.child("SickDays").getValue(Integer.class);
+        vacationDaysLeft = !dataSnapshot.hasChild("daysOff") ? 0 : dataSnapshot.child("daysOff").getValue(Integer.class);
+
+
+
+        calcLeftSickDays();
     }
-    private void updateYearSpinner(){
-        tableRef=tableDB.getUserAttendanceFromDB(selectedWorker);
+
+    private void calcLeftSickDays() {
+
+    }
+
+    private void updateYearSpinner() {
+        tableRef = tableDB.getUserAttendanceFromDB(selectedWorker);
         tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    adapterYear.add(snapshot.getKey().toString());
+                    adapterYear.add(snapshot.getKey());
                     adapterYear.notifyDataSetChanged();
                 }
             }
@@ -211,8 +233,9 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
             }
         });
     }
-    private void updateMonthSpinner(){
-        tableRef=tableDB.getUserAttendanceFromDB(selectedWorker).child(selectedYear);
+
+    private void updateMonthSpinner() {
+        tableRef = tableDB.getUserAttendanceFromDB(selectedWorker).child(selectedYear);
         tableRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -238,157 +261,182 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
             public void onDataChange(DataSnapshot snapshot) {
                 int countRow = 0;
                 long numOfDays = (snapshot.getChildrenCount());
-                daysTimes = new String[(int)numOfDays][4];
-                for (DataSnapshot snap : snapshot.getChildren())
-                {
+                daysTimes = new String[(int) numOfDays][5];
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     daysTimes[countRow][0] = snap.getKey();
-                    if (snapshot.child(daysTimes[countRow][0]).hasChild("entry")){
+
+
+                    if (snapshot.child(daysTimes[countRow][0]).hasChild("entry")) {
                         daysTimes[countRow][1] = snapshot.child(daysTimes[countRow][0]).child("entry").getValue(String.class);
-                    }
-                    else
+                    } else
                         daysTimes[countRow][1] = "";
-                    if (snapshot.child(daysTimes[countRow][0]).hasChild("exit")){
+
+
+                    if (snapshot.child(daysTimes[countRow][0]).hasChild("exit")) {
                         daysTimes[countRow][2] = snapshot.child(daysTimes[countRow][0]).child("exit").getValue(String.class);
-                    }
-                    else
+                    } else
                         daysTimes[countRow][2] = "";
-                    if (snapshot.child(daysTimes[countRow][0]).hasChild("total")){
+
+                    if (snapshot.child(daysTimes[countRow][0]).hasChild("total")) {
                         daysTimes[countRow][3] = snapshot.child(daysTimes[countRow][0]).child("total").getValue(String.class);
-                    }
-                    else
+                    } else
                         daysTimes[countRow][3] = "";
+//                    }
+
+                    if (snapshot.child(daysTimes[countRow][0]).hasChild("type")) {
+                        String t= snapshot.child(daysTimes[countRow][0]).child("type").getValue(String.class);
+                        if(t.equals("sick")) {
+                            daysTimes[countRow][2] = "( " + t + " )";
+                            sickDaysLeft--;
+                        }
+                        if(t.equals("vacation")) {
+                            daysTimes[countRow][2] = "( " + t + " )";
+                            vacationDaysLeft--;
+                        }
+                    }
+                    else {
+                        daysTimes[countRow][2] = "";
+                    }
+
                     countRow++;
                 }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
 
     //@Override
     public void createPdf() {
-        if (selectedMonth !="" && selectedWorker !="" && selectedYear != "" && isManager || selectedMonth !="" && selectedYear != "" && !isManager ){
+        if (selectedMonth != "" && selectedWorker != "" && selectedYear != "" && isManager || selectedMonth != "" && selectedYear != "" && !isManager) {
             dataObj = new Date();
-                        PdfDocument pdfWorkHours = new PdfDocument();
-                        Paint myPaint = new Paint();
-                        Paint titlePaint = new Paint();
+            PdfDocument pdfWorkHours = new PdfDocument();
+            Paint myPaint = new Paint();
+            Paint titlePaint = new Paint();
 
-                        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
-                        PdfDocument.Page myPage = pdfWorkHours.startPage(myPageInfo);
-                        Canvas canvas = myPage.getCanvas();
+            PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
+            PdfDocument.Page myPage = pdfWorkHours.startPage(myPageInfo);
+            Canvas canvas = myPage.getCanvas();
 
-                        canvas.drawBitmap(scaledbmp, 0, 0, myPaint);
-                        titlePaint.setTextAlign(Paint.Align.CENTER);
-                        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                        titlePaint.setTextSize(70);
-                        canvas.drawText("Attendance Report", pageWidth / 2, 270, titlePaint);
-                        //nees to add employeName
+            canvas.drawBitmap(scaledbmp, 0, 0, myPaint);
+            titlePaint.setTextAlign(Paint.Align.CENTER);
+            titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            titlePaint.setTextSize(70);
+            canvas.drawText("Attendance Report", pageWidth / 2, 270, titlePaint);
 
-                        titlePaint.setTextAlign(Paint.Align.LEFT);
-                        myPaint.setTextSize(50f);
-                        myPaint.setColor(Color.BLACK);
-                        canvas.drawText("Employee Name: " + EmployeeName, 30, 400, myPaint);
-                        canvas.drawText("Employee ID: " + selectedWorker, 30, 470, myPaint);
 
-                        dateFormat = new SimpleDateFormat("dd/MM/yy");
-                        canvas.drawText("Date: " + dateFormat.format(dataObj), pageWidth - 400, 400, myPaint);
+            titlePaint.setTextAlign(Paint.Align.LEFT);
+            myPaint.setTextSize(50f);
+            myPaint.setColor(Color.BLACK);
+            canvas.drawText("Employee Name: " + EmployeeName, 30, 400, myPaint);
+            canvas.drawText("Employee ID: " + selectedWorker, 30, 470, myPaint);
 
-                        dateFormat = new SimpleDateFormat("HH:mm:ss");
-                        canvas.drawText("Time: " + dateFormat.format(dataObj), pageWidth - 400, 470, myPaint);
 
-                        myPaint.setStyle(Paint.Style.STROKE);
-                        myPaint.setStrokeWidth(2);
-                        canvas.drawRect(20, 600, pageWidth - 20, 680, myPaint);
+            dateFormat = new SimpleDateFormat("dd/MM/yy");
+            canvas.drawText("Date: " + dateFormat.format(dataObj), pageWidth - 400, 400, myPaint);
 
-                        myPaint.setTextAlign(Paint.Align.LEFT);
-                        myPaint.setStyle(Paint.Style.FILL);
-                        canvas.drawText("Date", 40, 650, myPaint);
-                        canvas.drawText("Entry Time", 350, 650, myPaint);
-                        canvas.drawText("Exit Time", 650, 650, myPaint);
-                        canvas.drawText("Total", 950, 650, myPaint);
+            dateFormat = new SimpleDateFormat("HH:mm:ss");
+            canvas.drawText("Time: " + dateFormat.format(dataObj), pageWidth - 400, 470, myPaint);
 
-                        canvas.drawLine(330, 610, 330, 660, myPaint);
-                        canvas.drawLine(630, 610, 630, 660, myPaint);
-                        canvas.drawLine(930, 610, 930, 660, myPaint);
+            canvas.drawText("Days Offs Left: " + vacationDaysLeft, 30, 540, myPaint);
+            canvas.drawText("Sick Days Left: " + sickDaysLeft, 30, 610, myPaint);
 
-                        //for loop of the days in the manth
-                        int countY = 770;
-                        for (int i = 0; i < daysTimes.length; i++) {
-                            String fullDate = daysTimes[i][0] + "/" + selectedMonth + "/" + selectedYear;
-                            canvas.drawText(fullDate, 40, countY, myPaint);
-                            canvas.drawText(daysTimes[i][1], 350, countY, myPaint);
-                            canvas.drawText(daysTimes[i][2], 650, countY, myPaint);
-                            canvas.drawText(daysTimes[i][3], 950, countY, myPaint);
-                            canvas.drawLine(20, countY + 20, pageWidth - 20, countY + 20, myPaint);
-                            countY = countY + 100;
-                        }
 
-                        myPaint.setTextAlign(Paint.Align.RIGHT);
-                        pdfWorkHours.finishPage(myPage);
-                        //File file  = new File(Environment.getExternalStorageDirectory(), "/Monthly Report "+selectedWorker+".pdf");
-                        File outDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/Monthly Report " + selectedWorker + " " + selectedMonth + ".pdf");
+            myPaint.setStyle(Paint.Style.STROKE);
+            myPaint.setStrokeWidth(2);
+            canvas.drawRect(20, 600 + 100, pageWidth - 20, 680+ 100, myPaint);
 
-                        try {
-                            pdfWorkHours.writeTo(new FileOutputStream(outDir));
-                            Toast.makeText(getApplicationContext(), "The PFD saved: ", Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        pdfWorkHours.close();
-                    } else {
-                        //popup massage that selected not fill
-                    }
-                }
+            myPaint.setTextAlign(Paint.Align.LEFT);
+            myPaint.setStyle(Paint.Style.FILL);
+            canvas.drawText("Date", 40, 650+ 100, myPaint);
+            canvas.drawText("Entry Time", 350, 650+ 100, myPaint);
+            canvas.drawText("Exit Time", 650, 650+ 100, myPaint);
+            canvas.drawText("Total", 950, 650+ 100, myPaint);
+
+            canvas.drawLine(330, 610+ 100, 330, 660+ 100, myPaint);
+            canvas.drawLine(630, 610+ 100, 630, 660+ 100, myPaint);
+            canvas.drawLine(930, 610+ 100, 930, 660+ 100, myPaint);
+
+            //for loop of the days in the manth
+            int countY = 770 + 100;
+            for (int i = 0; i < daysTimes.length; i++) {
+                String fullDate = daysTimes[i][0] + "/" + selectedMonth + "/" + selectedYear;
+                canvas.drawText(fullDate, 40, countY, myPaint);
+                canvas.drawText(daysTimes[i][1], 350, countY, myPaint);
+                canvas.drawText(daysTimes[i][2], 650, countY, myPaint);
+                canvas.drawText(daysTimes[i][3], 950, countY, myPaint);
+                canvas.drawLine(20, countY + 20, pageWidth - 20, countY + 20, myPaint);
+                countY = countY + 100;
+            }
+
+            myPaint.setTextAlign(Paint.Align.RIGHT);
+            pdfWorkHours.finishPage(myPage);
+            //File file  = new File(Environment.getExternalStorageDirectory(), "/Monthly Report "+selectedWorker+".pdf");
+            File outDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/Monthly Report " + selectedWorker + " " + selectedMonth + ".pdf");
+
+            try {
+                pdfWorkHours.writeTo(new FileOutputStream(outDir));
+                Toast.makeText(getApplicationContext(), "The PFD saved: ", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            pdfWorkHours.close();
+        } else {
+            //popup massage that selected not fill
+        }
+    }
+
     public void openPdf() {
         createPdf();
 
         setContentView(R.layout.pdfview);
-        pdfview= findViewById(R.id.pdfView);
+        pdfview = findViewById(R.id.pdfView);
 
-        File file = new File (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +"/Monthly Report " + selectedWorker + " " + selectedMonth + ".pdf");
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Monthly Report " + selectedWorker + " " + selectedMonth + ".pdf");
         pdfview.fromFile(file).load();
     }
 
 
+    private void wordsToNumbers(String monthToConvert) {
+        switch (monthToConvert) {
 
-    private void wordsToNumbers(String monthToConvert){
-        switch (monthToConvert ){
-
-            case "January" :
-                selectedMonth="1";
+            case "January":
+                selectedMonth = "01";
                 break;
-            case "February" :
-                selectedMonth="2";
+            case "February":
+                selectedMonth = "02";
                 break;
-            case "March" :
-                selectedMonth="3";
+            case "March":
+                selectedMonth = "03";
                 break;
-            case "April" :
-                selectedMonth="4";
+            case "April":
+                selectedMonth = "04";
                 break;
-            case "May" :
-                selectedMonth="5";
+            case "May":
+                selectedMonth = "05";
                 break;
-            case "June" :
-                selectedMonth="6";
+            case "June":
+                selectedMonth = "06";
                 break;
-            case "July" :
-                selectedMonth="7";
+            case "July":
+                selectedMonth = "07";
                 break;
-            case "August" :
-                selectedMonth="8";
+            case "August":
+                selectedMonth = "08";
                 break;
-            case "September" :
-                selectedMonth="9";
+            case "September":
+                selectedMonth = "09";
                 break;
-            case "October" :
-                selectedMonth="10";
+            case "October":
+                selectedMonth = "10";
                 break;
-            case "November" :
-                selectedMonth="11";
+            case "November":
+                selectedMonth = "11";
                 break;
-            case "December" :
-                selectedMonth="12";
+            case "December":
+                selectedMonth = "12";
                 break;
 
 
@@ -397,45 +445,45 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
 
     }
 
-    private String numbersToWords(String monthToConvert){
-        String monthInWords="";
-        switch (monthToConvert ){
+    private String numbersToWords(String monthToConvert) {
+        String monthInWords = "";
+        switch (monthToConvert) {
 
-            case "01" :
-                monthInWords="January";
+            case "01":
+                monthInWords = "January";
                 break;
-            case "02" :
-                monthInWords="February";
+            case "02":
+                monthInWords = "February";
                 break;
-            case "03" :
-                monthInWords="March";
+            case "03":
+                monthInWords = "March";
                 break;
-            case "04" :
-                monthInWords="April";
+            case "04":
+                monthInWords = "April";
                 break;
-            case "05" :
-                monthInWords="May";
+            case "05":
+                monthInWords = "May";
                 break;
-            case "06" :
-                monthInWords="June";
+            case "06":
+                monthInWords = "June";
                 break;
-            case "07" :
-                monthInWords="July";
+            case "07":
+                monthInWords = "July";
                 break;
-            case "08" :
-                monthInWords="August";
+            case "08":
+                monthInWords = "August";
                 break;
-            case "09" :
-                monthInWords="September";
+            case "09":
+                monthInWords = "September";
                 break;
-            case "10" :
-                monthInWords="October";
+            case "10":
+                monthInWords = "October";
                 break;
-            case "11" :
-                monthInWords="November";
+            case "11":
+                monthInWords = "November";
                 break;
-            case "12" :
-                monthInWords="December";
+            case "12":
+                monthInWords = "December";
                 break;
 
         }
@@ -447,18 +495,25 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
 
 
     private void findWorkerName(String id) {
-        if(id == "Manager") return;
+        if (id == "Manager") return;
         DatabaseReference users = userDB.getAllUsers();
         users.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()) {
-                    if(dataSnapshot.child("ID").getValue(String.class).equals(id)) {
-                        String fName=dataSnapshot.child("fName").getValue(String.class);
-                        String lName=dataSnapshot.child("lName").getValue(String.class);
-                        workersList.put(id , fName+" "+lName);
-                        adapterWorkers.add(fName+" "+lName);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (dataSnapshot.child("ID").getValue(String.class).equals(id)) {
+//                        String fName = dataSnapshot.child("fName").getValue(String.class);
+//                        String lName = dataSnapshot.child("lName").getValue(String.class);
+//                        String lName = dataSnapshot.child("lName").getValue(String.class);
+//                        String lName = dataSnapshot.child("lName").getValue(String.class);
+
+                        UserObj obj = dataSnapshot.getValue(UserObj.class);
+
+                        //Map<String, Object> data = new HashMap<>();
+
+                        workersList.put(id, obj);
+                        adapterWorkers.add(obj.fName + " " + obj.lName);
                         adapterWorkers.notifyDataSetChanged();
                         break;
                     }
@@ -478,12 +533,15 @@ public class MonthlyReport extends Menu implements OnItemSelectedListener {
 
     private void findWorkerId (String name) {
         for (String i : workersList.keySet()) {
-           if(workersList.get(i).equals(name)) {
-               selectedWorker = i;
-               EmployeeName =workersList.get(i);
-           }
+            String workerName = workersList.get(i).fName + " " + workersList.get(i).lName;
+            if(workerName.equals(name)) {
+                selectedWorker = i;
+                sickDaysLeft = workersList.get(i).SickDays;
+                vacationDaysLeft = workersList.get(i).daysOff;
+                EmployeeName = workerName;
+            }
         }
 
     }
 
-    }
+}

@@ -1,5 +1,6 @@
 package com.example.easy_attendance;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -15,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Menu extends AppCompatActivity {
     Intent intent;
-   FirebaseAuth fba = FirebaseAuth.getInstance();
+    FirebaseAuth fba = FirebaseAuth.getInstance();
     FirebaseDBUser userDB = new FirebaseDBUser();
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -26,8 +27,9 @@ public class Menu extends AppCompatActivity {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                 Boolean isManager=dataSnapshot.child("isManager").getValue(Boolean.class);
-                 if (!(isManager)) optionsMenu.getItem(3).setVisible(false);
+                Boolean isManager=dataSnapshot.child("isManager").getValue(Boolean.class);
+                if (!(isManager))
+                    optionsMenu.getItem(4).setVisible(false);
 
             }
 
@@ -38,9 +40,14 @@ public class Menu extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.menu_retroactive_report:
+                intent = new Intent(this, RetroactiveReportActivity.class);
+                startActivity(intent);
+                break;
             case R.id.menu_daily_report:
                 intent = new Intent(this, DailyReport.class);
                 startActivity(intent);

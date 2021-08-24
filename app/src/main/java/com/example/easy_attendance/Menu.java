@@ -67,6 +67,11 @@ public class Menu extends AppCompatActivity {
                 startActivity(intent);
                 break;
 
+            case R.id.menu_org_location:
+                intent = new Intent(this, OrgLocation.class);
+                startActivity(intent);
+                break;
+
             case R.id.menu_logout:
                 FirebaseAuth.getInstance().signOut();
                 intent = new Intent(this, LoginPage.class);

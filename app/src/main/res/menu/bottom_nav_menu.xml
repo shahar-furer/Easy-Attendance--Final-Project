@@ -26,6 +26,11 @@
         android:title="Workers List"/>
 
     <item
+        android:id="@+id/menu_org_location"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Organization Address"/>
+
+    <item
         android:id="@+id/menu_logout"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="Logout"/>

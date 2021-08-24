@@ -27,6 +27,7 @@
         <activity android:name=".DailyReport" />
         <activity android:name=".CalculateSallary" />
         <activity android:name=".RetroactiveReportActivity"/>
+        <activity android:name=".EditEmployeeDataActivity"/>
         <activity android:name=".LoginPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

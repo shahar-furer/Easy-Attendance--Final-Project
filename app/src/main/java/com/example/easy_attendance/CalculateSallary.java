@@ -184,7 +184,7 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
                     }
                     totalMonthTxtview.setText(chosenMonth);
                     totalYearTxtview.setText(chosenYear);
-                    totalHoursTxtview.setText((int) (totalHours / 60) + ":" + (int) totalHours % 60);
+                    totalHoursTxtview.setText((int) ((int)totalHours) + ":" + (int) totalHours % 10);
                     totalPayTxtView.setText("Total Pay: "+ numberFormat.format(totalPay) + " NIS");
                     totalPayTxtView.setVisibility(View.VISIBLE);
 
@@ -200,7 +200,7 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
 
     }
 
-    private void calcSallary(int dailyTotalHours){
+    private void calcSallary(double dailyTotalHours){
         Log.d("total mins " ," "+dailyTotalHours);
         double dailyPay=0;
         totalHours+=dailyTotalHours;
@@ -227,10 +227,9 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
         Log.d("daily pay " , " "+dailyPay+ " "+totalPay);
     }
 
-    private int getTotalMinutes(String time) {
+    private double getTotalMinutes(String time) {
         String[] t = time.split(":");
-        return Integer.valueOf(t[0]) * 60 + Integer.valueOf(t[1]);
-
+        return Double.valueOf(t[0])  + Double.valueOf(t[1]) / 100;
     }
 
     private void wordsToNumbers(String monthToConvert){

@@ -28,9 +28,10 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Boolean isManager=dataSnapshot.child("isManager").getValue(Boolean.class);
-                if (!(isManager))
+                if (!(isManager)) {
                     optionsMenu.getItem(4).setVisible(false);
-
+                    optionsMenu.getItem(5).setVisible(false);
+                }
             }
 
             @Override

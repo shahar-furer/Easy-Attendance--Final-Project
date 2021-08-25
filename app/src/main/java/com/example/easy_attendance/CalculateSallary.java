@@ -174,9 +174,12 @@ public class CalculateSallary extends Menu implements AdapterView.OnItemSelected
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         if(!snapshot.hasChild("total")){
                             totalPay += hourlyPay * 9;      // add the daily pay
+                            totalHours+=9;
                         }
-                        String total = snapshot.child("total").getValue(String.class);
-                        calcSallary(getTotalMinutes(total));
+                        else {
+                            String total = snapshot.child("total").getValue(String.class);
+                            calcSallary(getTotalMinutes(total));
+                        }
 
                     }
                     totalMonthTxtview.setText(chosenMonth);
